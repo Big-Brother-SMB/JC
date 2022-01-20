@@ -3,37 +3,66 @@
   <head>
     <meta charset="utf-8">
     <title>Foyer</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel = "icon" href= "../Images/logo.png">
+    <link rel="stylesheet" href="menu.css">
   </head>
+  
   <body>
+    <header>
+      <img class="headerimg" src="../Images/logo.png" alt="logo Lycée" >
+      <h1 id="logo">Modo</h1>
+      
+          
+      
+    </header>
 
-<button id="deco" class="action">deconnexion</button>
-<p id="infoGroupe"></p>
-<div>
-  <button id="groupe" class="action">Groupes</button>
-</div>
+    <article>
 
-<div>
-  <button id="semainePrecedente">Semaine précédente</button>
-  <button id="semaineActuelle">Retour à la semaine actuelle</button>
-  <button id="semaineSuivante">Semaine suivante</button>
-</div>
-<p id="semaine"></p>
 
-    <div>
+    <div class="semainediv">
+      <button id="semainePrecedente" class="semaine">Semaine précédente</button>
+      <button id="semaineActuelle" class="semaine">Semaine actuelle</button>
+      <button id="semaineSuivante" class="semaine">Semaine suivante</button>
+    </div>
+    <p id="semaine" class="info"></p>
+    
+    <div class="heurediv">
       <button class="jours">jours:</button>
       <button id="heure11">11h</button>
       <button >12h</button>
     </div>
-    <div id ="body"></div>
-    <div></div>
-    <button id="pass" class="action">Pass</button>
+    <div id ="body" class="creneaudiv"></div>
+    <br/>
+    
+    <div class="passdiv">
+      <button id="users" class="action">Utilisateurs</button>
+    </div>
+    
+
+    </article>
+    
+   
 
 
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
-  <script src="menu.js"></script>
+    <script src="../common.js"></script>
+    <script src="menu.js"></script>
+    <footer>
+      <div style="background:#ffffff;width:100%;height:auto;text-align: center;">
 
+          <br/>
+          <hr style="width: 25%;" />
+
+          <a href="../blog/devBlog.html" style="text-decoration: none;">
+              <p style="font-weight:500; color:black;font-size:18px;letter-spacing: 1px;">Version Beta</p>
+          </a>
+
+          <br/>
+          <br/>
+
+      </div>
+  </footer>
   </body>
 
 </html>

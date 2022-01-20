@@ -13,36 +13,29 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database()
 
-const menu = "../../menu/menu.html"
 const jour = ["1lundi", "2mardi","3jeudi","4vendredi"];
 function path(j,h){
     return "foyer_midi/semaine"+ parseInt(sessionStorage.getItem("week")) + "/" + jour[j] + "/" + (11 + h) + "h"
 }
+const menu = "../../menu/menu.html"
 
 let user = sessionStorage.getItem("user");
 let j = sessionStorage.getItem("j");
 let h = parseInt(sessionStorage.getItem("h"));
-console.log(path(j,h))
+console.log(path(j,h));
 
-database.ref(path(j,h) + "/ouvert").once('value').then(function(snapshot) {
-    if(snapshot.val() == 3 || snapshot.val() == 5){
-        window.location.href = menu;
-    }else{
-        suite();
-    }
-});
+let divInscrits = document.getElementById("inscrits")
 
-
-function suite(){
-    document.getElementById("info").innerHTML = "Vous êtes inscrit le X<br>Voulez vous vous desinscrire ?"
-    document.getElementById("oui").addEventListener("click", function() {
-        database.ref(path(j,h) + "/demandes/" + user).remove();
-        window.location.href = menu;
-    });
-    document.getElementById("non").addEventListener("click", function() {
-        window.location.href = menu;
-    });
-}
-
-
-
+database.ref(path(j,h) + "/inscrits").once("value", function(snapshot) {
+    divInscrits.innerHTML = ""
+    snapshot.forEach(function(child) {
+        let pers = document.createElement("button")
+        let name = child.key
+        pers.innerHTML = name
+        pers.addEventListener("click", function() {
+            console.log("add")
+            pers.innerHTML = name + " (ajouté)"
+        })
+        divInscrits.appendChild(pers);
+    })
+})
