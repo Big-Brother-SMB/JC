@@ -21,6 +21,7 @@ var database = firebase.database()
 console.log("week : " + week)
 console.log(actualWeek)
 
+
 document.getElementById("semainePrecedente").addEventListener("click", function() {
     sessionStorage.setItem("week", parseInt(sessionStorage.getItem("week")) - 1);
     week = week - 1
@@ -140,6 +141,8 @@ function refreshDatabase(){
 
 
 function update(j,h){
+    console.log("path : " + path(j,h))
+
     places[j][h] = total[j][h] - demandes[j][h];
     setTimeout(updateAffichage(j,h),1000);
 }
@@ -212,6 +215,7 @@ function updateAffichage(j,h){
 }
 
 function select(j,h){
+    
     sessionStorage.setItem("j", j);
     sessionStorage.setItem("h", h);
     window.location.href = "../crenau/crenau.html";
@@ -221,9 +225,6 @@ function reload(){
     window.location.reload(true)
 }
 
-function path(j,h){
-    return "foyer_midi/semaine"+ week + "/" + (j+1) + jour[j] + "/" + (11 + h) + "h"
-}
 
 function loop(){
     refreshDatabase();

@@ -14,9 +14,7 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database()
 
 const jour = ["1lundi", "2mardi","3jeudi","4vendredi"];
-function path(j,h){
-    return "foyer_midi/semaine"+ parseInt(sessionStorage.getItem("week")) + "/" + jour[j] + "/" + (11 + h) + "h"
-}
+
 const menu = "../../menu/menu.html"
 
 let user = sessionStorage.getItem("user");
@@ -31,16 +29,22 @@ database.ref(path(j,h) + "/demandes").once("value", function(snapshot) {
     snapshot.forEach(function(child) {
         let divPers = document.createElement("div")
         //divPers.style.display = "inline-block"
-        let pers = document.createElement("p")
+        let pers = document.createElement("button")
         let name = child.key
         pers.innerHTML = name
         let del = document.createElement("button")
         del.addEventListener("click", function() {
             console.log("add")
-            pers.innerHTML = name + " (ajouté)"
         })
+        del.innerHTML = "retirer"
+        let wait = document.createElement("button")
+        wait.addEventListener("click", function() {
+            console.log("wait")
+        })
+        wait.innerHTML = "Mettre sur liste d'attente"
         divPers.appendChild(pers);
         divPers.appendChild(del);
+        divPers.appendChild(wait);
         divDemande.appendChild(divPers);
     })
 })
