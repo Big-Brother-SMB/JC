@@ -13,14 +13,27 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database()
 
-const jour = ["1lundi", "2mardi","3jeudi","4vendredi"];
-
 const menu = "../../menu/menu.html"
 
-let user = sessionStorage.getItem("user");
 let j = sessionStorage.getItem("j");
 let h = parseInt(sessionStorage.getItem("h"));
 console.log(path(j,h));
+
+
+let divMode = document.getElementById("mode")
+for(i in listMode){
+    let opt = document.createElement("option")
+    opt.innerHTML = listMode[i]
+    divMode.appendChild(opt);
+}
+
+database.ref(path(j,h) + "/ouvert").once('value').then(function(snapshot) {
+    
+    divMode.selectedIndex = snapshot.val();
+    divMode.addEventListener("change", function() {
+        database.ref(path(j,h) + "/ouvert").set(this.selectedIndex)
+      });
+});
 
 
 document.getElementById("inscrits").addEventListener("click", function() {
@@ -30,3 +43,4 @@ document.getElementById("inscrits").addEventListener("click", function() {
 document.getElementById("demandes").addEventListener("click", function() {
     window.location.href = "listes/demandes.html";
 });
+

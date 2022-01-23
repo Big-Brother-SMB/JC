@@ -240,3 +240,8 @@ article{
   .bloque{
     background-color: #fdba00;
   }
+
+  select{
+    font-size: 50px;
+    width: 700px;
+  }  

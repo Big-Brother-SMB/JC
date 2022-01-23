@@ -18,8 +18,6 @@ var database = firebase.database()
 //window.location.href = "../index.html";
 
 //(new Date()).getWeek();
-console.log("week : " + week)
-console.log(actualWeek)
 
 
 document.getElementById("semainePrecedente").addEventListener("click", function() {
@@ -114,6 +112,7 @@ function refreshDatabase(){
                 update(j, h);
             });
       
+            
             ouvert[j][h] = 0
             database.ref(path(j,h) + "/ouvert").once('value').then(function(snapshot) {
                 if(snapshot.val() == null){
@@ -141,7 +140,6 @@ function refreshDatabase(){
 
 
 function update(j,h){
-    console.log("path : " + path(j,h))
 
     places[j][h] = total[j][h] - demandes[j][h];
     setTimeout(updateAffichage(j,h),1000);
