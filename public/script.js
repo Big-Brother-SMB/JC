@@ -177,7 +177,7 @@ function robi(pers,sc,usc,amis, places,j,h){
                 boucle = true
                 console.log("score suivant : " + scMin)
             }else{
-                let alea = randint(0, score[scMin].length - 1)
+                let alea = 47//randint(0, score[scMin].length - 1)
                 let i = alea
                 do{
                     del = score[scMin][i]
@@ -253,12 +253,12 @@ function robi(pers,sc,usc,amis, places,j,h){
 
     for(let t in tag){
         if(tag[t]){
-            /*console.log("tagged : " + pers[t] + " (" + t + ")")
-            database.ref("users/" + pers[t] + "/score").set(userSc[t] + 1)
+            console.log("tagged : " + pers[t] + " (" + t + ")")
+            /*database.ref("users/" + pers[t] + "/score").set(userSc[t] + 1)
             console.log("new score : " + (userSc[t] + 1))
             database.ref(path(j,h) + "/demandes/" + pers[t]).remove();*/
         }else{
-            database.ref(path(j,h) + "/inscrits/" + pers[t]).set(0)
+            //database.ref(path(j,h) + "/inscrits/" + pers[t]).set(0)
         }
     }
     console.log("fini")

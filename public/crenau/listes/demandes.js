@@ -22,29 +22,43 @@ let j = sessionStorage.getItem("j");
 let h = parseInt(sessionStorage.getItem("h"));
 console.log(path(j,h));
 
-let divDemande = document.getElementById("liste")
+let divDemandes = document.getElementById("liste")
 
-database.ref(path(j,h) + "/demandes").once("value", function(snapshot) {
-    divDemande.innerHTML = ""
-    snapshot.forEach(function(child) {
-        let divPers = document.createElement("div")
-        //divPers.style.display = "inline-block"
-        let pers = document.createElement("button")
-        let name = child.key
-        pers.innerHTML = name
-        let del = document.createElement("button")
-        del.addEventListener("click", function() {
-            console.log("add")
-        })
-        del.innerHTML = "retirer"
-        let wait = document.createElement("button")
-        wait.addEventListener("click", function() {
-            console.log("wait")
-        })
-        wait.innerHTML = "Mettre sur liste d'attente"
-        divPers.appendChild(pers);
-        divPers.appendChild(del);
-        divPers.appendChild(wait);
-        divDemande.appendChild(divPers);
-    })
-})
+getStat(j,h,"demandes")
+setTimeout(function() {
+    
+    if(users.length == 0){
+        divDemandes.innerHTML = "aucun utilisateurs"
+    }else{
+        divDemandes.innerHTML = ""
+        for(u in users){
+            let divPers = document.createElement("div")
+            //divPers.style.display = "inline-block"
+            let pers = document.createElement("button")
+            let name = users[u]
+            pers.innerHTML = name
+            let del = document.createElement("button")
+            del.addEventListener("click", function() {
+                console.log("add")
+            })
+            del.innerHTML = "retirer (" + delLinkTag[u].length + ")"
+            let wait = document.createElement("button")
+            wait.addEventListener("click", function() {
+                console.log("wait")
+            })
+            wait.innerHTML = "Mettre sur liste d'attente (" + delLinkTag[u].length + ")"
+            
+            let score = document.createElement("button")
+            score.innerHTML = usersScore[u] + " pts"
+
+            divPers.appendChild(pers);
+            divPers.appendChild(del);
+            divPers.appendChild(wait);
+            divPers.appendChild(score);
+            divDemandes.appendChild(divPers);
+        }
+    }
+    
+        
+        
+},1000);

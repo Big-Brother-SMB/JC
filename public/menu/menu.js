@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database()
 
 
-
+//window.location.href = "../index.html";
 
 //(new Date()).getWeek();
 console.log("week : " + week)
