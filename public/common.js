@@ -53,7 +53,7 @@ let listClasse = ["S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","1A",
 //path
 
 function path(j,h){
-    return "foyer_midi/semaine" + week + "/" + dayNum[j] + "/" + (11 + h) + "h"
+    return "foyer_midi/test/" + dayNum[j] + "/" + (11 + h) + "h"
 }
 
 //modes

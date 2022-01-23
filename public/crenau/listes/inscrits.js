@@ -39,7 +39,7 @@ setTimeout(function() {
             pers.innerHTML = name
             let del = document.createElement("button")
             del.addEventListener("click", function() {
-                console.log("add")
+                console.log("del")
             })
             del.innerHTML = "retirer (" + delLinkTag[u].length + ")"
             let wait = document.createElement("button")

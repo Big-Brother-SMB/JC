@@ -31,29 +31,58 @@ setTimeout(function() {
         divDemandes.innerHTML = "aucun utilisateurs"
     }else{
         divDemandes.innerHTML = ""
-        for(u in users){
+        for(let u in users){
+           
             let divPers = document.createElement("div")
             //divPers.style.display = "inline-block"
             let pers = document.createElement("button")
             let name = users[u]
             pers.innerHTML = name
+
             let del = document.createElement("button")
             del.addEventListener("click", function() {
-                console.log("add")
+                console.log("del")
             })
             del.innerHTML = "retirer (" + delLinkTag[u].length + ")"
+
             let wait = document.createElement("button")
             wait.addEventListener("click", function() {
                 console.log("wait")
             })
-            wait.innerHTML = "Mettre sur liste d'attente (" + delLinkTag[u].length + ")"
+            wait.innerHTML = "Mettre sur liste d'attente (" + addLinkTag[u].length + ")"
             
+            let add = document.createElement("button")
+            add.addEventListener("click", function() {
+                console.log("add")
+                console.log("add : " + path(j,h) + "/inscrits/" + users[u] + "/score")
+                console.log(users)
+                console.log(u)
+                for(let a in amis[u]){
+                    database.ref(path(j,h) + "/inscrits/" + users[u] + "/amis/" + amis[u][a]).set(0)
+                }
+                database.ref(path(j,h) + "/inscrits/" + users[u] + "/score").set(usersScore[u])
+                database.ref(path(j,h) + "/demandes/" + users[u]).remove()
+
+                console.log(addLinkTag[u])
+                for(let l in addLinkTag[u]){
+                    let num = addLinkTag[u][l]
+                    console.log("user : " + users[num] + " / " + num)
+                    for(let a in amis[num]){
+                        database.ref(path(j,h) + "/inscrits/" + users[num] + "/amis/" + amis[num][a]).set(0)
+                    }
+                    database.ref(path(j,h) + "/inscrits/" + users[num] + "/score").set(usersScore[num])
+                    database.ref(path(j,h) + "/demandes/" + users[num]).remove()
+                }
+            })
+            add.innerHTML = "inscrire (" + addLinkTag[u].length + ")"
+
             let score = document.createElement("button")
             score.innerHTML = usersScore[u] + " pts"
 
             divPers.appendChild(pers);
             divPers.appendChild(del);
             divPers.appendChild(wait);
+            divPers.appendChild(add);
             divPers.appendChild(score);
             divDemandes.appendChild(divPers);
         }

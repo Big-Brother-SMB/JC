@@ -35,6 +35,14 @@ database.ref(path(j,h) + "/ouvert").once('value').then(function(snapshot) {
       });
 });
 
+let places = document.getElementById("places")
+database.ref(path(j,h) + "/places").once('value').then(function(snapshot) {
+    places.value = snapshot.val();
+    places.addEventListener("change", function() {
+        database.ref(path(j,h) + "/places").set(this.value)
+    });
+});
+
 
 document.getElementById("inscrits").addEventListener("click", function() {
     window.location.href = "listes/inscrits.html";
