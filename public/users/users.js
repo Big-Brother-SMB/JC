@@ -17,6 +17,12 @@ function reload(){
 }
 const menu = "../menu/menu.html"
 
+for(i in listClasse){
+    let opt = document.createElement("option")
+    opt.innerHTML = listClasse[i]
+    document.getElementById("classe").appendChild(opt);
+  }
+
 let utilisateurs = []
     database.ref("users").once("value", function(snapshot) {
         snapshot.forEach(function(child) {
@@ -27,4 +33,31 @@ let utilisateurs = []
         })
         autocomplete(document.getElementById("search"), utilisateurs);
     })
+
+let divClasse = document.getElementById("classe")
+let divScore = document.getElementById("score")
+
+document.getElementById("search").addEventListener("change", function() {
+    setTimeout(function() {
+        console.log("change")
+    let utilisateur = document.getElementById("search").value
+    console.log("path : " + "users/" + utilisateur + "/classe")
+    database.ref("users/" + utilisateur + "/classe").once('value').then(function(snapshot) {
+
+        divClasse.selectedIndex = listClasse.indexOf(snapshot.val());
+        divClasse.addEventListener("change", function() {
+            database.ref("users/" + utilisateur + "/classe").set(listClasse[this.selectedIndex])
+            });
+    });
+    
+    database.ref("users/" + utilisateur + "/score").once('value').then(function(snapshot) {
+        divScore.value = snapshot.val();
+        divScore.addEventListener("change", function() {
+            database.ref("users/" + utilisateur + "/score").set(this.value)
+        });
+    });
+    },100);
+    
+})
+    
     

@@ -3,6 +3,11 @@ body {
   font: 50px Arial;
 }
 
+select{
+    font-size: 50px;
+    width: 200px;
+  }    
+
 
 body,
     h1
