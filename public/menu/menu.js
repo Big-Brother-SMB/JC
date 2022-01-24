@@ -42,6 +42,11 @@ document.getElementById("semaineSuivante").addEventListener("click", function() 
     refreshDatabase()
 });
 
+document.getElementById("users").addEventListener("click", function() {
+    window.location.href = "../users/users.html";
+
+});
+
 
 const body = document.getElementById("body");
 const jour = ["lundi", "mardi","jeudi","vendredi"];
