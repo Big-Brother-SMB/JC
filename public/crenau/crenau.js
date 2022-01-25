@@ -73,6 +73,7 @@ for(let n in listNiveau){
     divNiveau.style="display: inline-block;*display: inline"
 
     let nSelectAll = document.createElement("button")
+    nSelectAll.className = "bTriNiveau"
     nSelectAll.innerHTML ="selectionner tous les " + nomNiveau[n]
     nSelectAll.addEventListener("click", function() {
         console.log("niveau " + n + " select all")
@@ -84,6 +85,7 @@ for(let n in listNiveau){
     divNiveau.appendChild(nSelectAll);
 
     let nSelectNone = document.createElement("button")
+    nSelectNone.className = "bTriNiveau"
     nSelectNone.innerHTML ="retirer tous les " + nomNiveau[n]
     nSelectNone.addEventListener("click", function() {
         console.log("niveau " + n + " select none")
@@ -95,6 +97,7 @@ for(let n in listNiveau){
     divNiveau.appendChild(nSelectNone);
 
     let nInversed = document.createElement("button")
+    nInversed.className = "bTriNiveau"
     nInversed.innerHTML ="Inverser tous les " + nomNiveau[n]
     nInversed.addEventListener("click", function() {
         console.log("niveau " + n + " inversed")
