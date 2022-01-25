@@ -16,6 +16,10 @@
 
     <button id="inscrits">Inscrits</button>
 
+    <form>
+      <input type="button" value="Retour" onclick="history.back()">
+  </form>
+
     
     <p>
       Mode : 
@@ -26,10 +30,35 @@
     <input id="places" type="number" placeholder="Nombres de places">
 </p>
 
+
+<p>Inscrire des personnes via Algorithme</p>
+
+<p>Filtre : 
+  <select>
+    <option>Score</option>
+    <option>Classe</option>
+  </select>
+</p>
+
+<p>Filtre : 
+  <select>
+    <option>Uniquement les personnes de ces classes</option>
+    <option>Les personnes de ces classes et leurs amis</option>
+  </select>
+</p>
+
+
+<div id="classes">
+  <div>
+    <button id="select all">Tout sélectioner</button>
+    <button id="select none">Tout retirer</button>
+    <button id="inversed">Inverser la sélection</button>
+  </div>
+</div>
+
+
     
-    <form>
-      <input type="button" value="Retour" onclick="history.back()">
-  </form>
+    
         
     
     

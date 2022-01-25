@@ -44,11 +44,56 @@ database.ref(path(j,h) + "/places").once('value').then(function(snapshot) {
 });
 
 
+
+function nbPersDemande(nb){
+    document.getElementById("demandes").innerHTML = "demandes (" + nb + ")"
+}
+nbPers(j,h,"demandes",nbPersDemande)
+
+document.getElementById("demandes").addEventListener("click", function() {
+    window.location.href = "listes/demandes.html";
+});
+
+
+function nbPersInscrit(nb){
+    document.getElementById("inscrits").innerHTML = "inscrits (" + nb + ")"
+}
+nbPers(j,h,"inscrits",nbPersInscrit)
+
 document.getElementById("inscrits").addEventListener("click", function() {
     window.location.href = "listes/inscrits.html";
 });
 
-document.getElementById("demandes").addEventListener("click", function() {
-    window.location.href = "listes/demandes.html";
+let divClasses = document.getElementById("classes")
+let cbClasses = []
+for(i in listClasse){
+    let opt = document.createElement("p")
+    cbClasses[i] = document.createElement("input")
+    cbClasses[i].type = "checkbox"
+    cbClasses[i].checked = true
+    opt.innerHTML = listClasse[i]
+    opt.appendChild(cbClasses[i]);
+    divClasses.appendChild(opt);
+}
+
+document.getElementById("select all").addEventListener("click", function() {
+    console.log("select all")
+    for(i in cbClasses){
+        cbClasses[i].checked = true
+    }
+});
+
+document.getElementById("select none").addEventListener("click", function() {
+    console.log("select none")
+    for(i in cbClasses){
+        cbClasses[i].checked = false
+    }
+});
+
+document.getElementById("inversed").addEventListener("click", function() {
+    console.log("inversed")
+    for(i in cbClasses){
+        cbClasses[i].checked = !cbClasses[i].checked
+    }
 });
 

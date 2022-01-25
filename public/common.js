@@ -199,6 +199,19 @@ function getStat(j,h,type){
 
 }
 
+//nb pers
+function nbPers(j,h,type,func){
+    console.log(path(j,h)+"/" + type)
+    database.ref(path(j,h)+"/" + type).once("value", function(snapshot) {
+        let total = 0
+        snapshot.forEach(function(child) {
+            total++;  
+        });
+        func(total)
+    })
+}
+
+
 //autocomplete
 
 function autocomplete(inp, arr) {
