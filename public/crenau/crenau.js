@@ -66,34 +66,84 @@ document.getElementById("inscrits").addEventListener("click", function() {
 
 let divClasses = document.getElementById("classes")
 let cbClasses = []
-for(i in listClasse){
-    let opt = document.createElement("p")
-    cbClasses[i] = document.createElement("input")
-    cbClasses[i].type = "checkbox"
-    cbClasses[i].checked = true
-    opt.innerHTML = listClasse[i]
-    opt.appendChild(cbClasses[i]);
-    divClasses.appendChild(opt);
+console.log(listNiveau)
+for(let n in listNiveau){
+    cbClasses[n] = []
+    let divNiveau = document.createElement("div")
+    divNiveau.style="display: inline-block;*display: inline"
+
+    let nSelectAll = document.createElement("button")
+    nSelectAll.innerHTML ="selectionner tous les " + nomNiveau[n]
+    nSelectAll.addEventListener("click", function() {
+        console.log("niveau " + n + " select all")
+        for(i in cbClasses[n]){
+            cbClasses[n][i].checked = true
+        }
+        
+    });
+    divNiveau.appendChild(nSelectAll);
+
+    let nSelectNone = document.createElement("button")
+    nSelectNone.innerHTML ="retirer tous les " + nomNiveau[n]
+    nSelectNone.addEventListener("click", function() {
+        console.log("niveau " + n + " select none")
+        for(i in cbClasses[n]){
+            cbClasses[n][i].checked = false
+        }
+        
+    });
+    divNiveau.appendChild(nSelectNone);
+
+    let nInversed = document.createElement("button")
+    nInversed.innerHTML ="Inverser tous les " + nomNiveau[n]
+    nInversed.addEventListener("click", function() {
+        console.log("niveau " + n + " inversed")
+        for(i in cbClasses[n]){
+            cbClasses[n][i].checked = !cbClasses[n][i].checked
+        }
+        
+    });
+    divNiveau.appendChild(nInversed);
+
+
+
+    for(let i in listNiveau[n]){
+        let opt = document.createElement("p")
+        cbClasses[n][i] = document.createElement("input")
+        cbClasses[n][i].type = "checkbox"
+        cbClasses[n][i].checked = true
+        opt.innerHTML = listNiveau[n][i]
+        opt.appendChild(cbClasses[n][i]);
+        divNiveau.appendChild(opt);
+    }
+    divClasses.appendChild(divNiveau);
+    
 }
 
 document.getElementById("select all").addEventListener("click", function() {
     console.log("select all")
-    for(i in cbClasses){
-        cbClasses[i].checked = true
+    for(let n in cbClasses){
+        for(let i in cbClasses[n]){
+            cbClasses[n][i].checked = true
+        }
     }
 });
 
 document.getElementById("select none").addEventListener("click", function() {
     console.log("select none")
-    for(i in cbClasses){
-        cbClasses[i].checked = false
+    for(let n in cbClasses){
+        for(let i in cbClasses[n]){
+            cbClasses[n][i].checked = false
+        }
     }
 });
 
 document.getElementById("inversed").addEventListener("click", function() {
     console.log("inversed")
-    for(i in cbClasses){
-        cbClasses[i].checked = !cbClasses[i].checked
+    for(let n in cbClasses){
+        for(let i in cbClasses[n]){
+            cbClasses[n][i].checked = !cbClasses[n][i].checked
+        }
     }
 });
 

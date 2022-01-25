@@ -148,6 +148,10 @@ article{
     vertical-align: text-top;
   
   }
+
+  #classes{
+    display:inline-block;
+  }
   
   p{
     font-size: 30px;
