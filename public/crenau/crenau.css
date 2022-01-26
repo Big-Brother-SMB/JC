@@ -126,7 +126,7 @@ article{
     background-color: #ff7be9;
     color: rgb(0, 0, 0);
     padding: 10px 10px;
-    width: 400px;
+    width: 360px;
     height: 150px;
     margin: 0px 0px;
     font-size: 25px;
@@ -154,7 +154,7 @@ article{
   }
 
   .bTriNiveau{
-    width: 133px;
+    width: 120px;
     height: 100px;
     font-size: 15px;
   }
@@ -259,5 +259,5 @@ article{
 
   select{
     font-size: 50px;
-    width: 700px;
+    width: 1000px;
   }  

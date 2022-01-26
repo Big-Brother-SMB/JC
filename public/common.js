@@ -65,8 +65,12 @@ let listMode = ["horaire non planifié","ouvert","fermé","uniquement inscriptio
 let users = []
 let amis = []
 let amisTag = []
+
 let nbScores = []
 let usersScore = []
+
+let classes = []
+let usersClasse = []
 
 let addLinkTag = []
 let linkedTag = []
@@ -108,6 +112,23 @@ function getStat(j,h,type){
                 }
                 nbScores[sc].push(u)
                 usersScore.push(sc)
+            })
+            
+        }
+
+        for(let u in users){
+            let user = users[u] 
+            database.ref(path(j,h)+"/"+ type + "/" + user + "/classe").once("value", function(snapshot) {
+                let c = snapshot.val()
+                if(c == null){
+                    usersClasse.push("none")
+                }else{
+                    if(classes[c] == null){
+                        classes[c] = []
+                    }
+                    classes[c].push(u)
+                    usersClasse.push(c)
+                }
             })
             
         }
@@ -194,6 +215,10 @@ function getStat(j,h,type){
         console.log(addLinkTag)
         console.log(linkedTag)
         console.log(delLinkTag)
+        console.log("classes",classes)
+        console.log(usersClasse)
+        console.log(nbScores)
+        console.log("users score",usersScore)
 
     },1000);
 

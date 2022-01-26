@@ -35,11 +35,14 @@ database.ref(path(j,h) + "/ouvert").once('value').then(function(snapshot) {
       });
 });
 
-let places = document.getElementById("places")
+let inPlaces = document.getElementById("places")
+let places
 database.ref(path(j,h) + "/places").once('value').then(function(snapshot) {
-    places.value = snapshot.val();
-    places.addEventListener("change", function() {
-        database.ref(path(j,h) + "/places").set(this.value)
+    places = snapshot.val();
+    inPlaces.value = places
+    inPlaces.addEventListener("change", function() {
+        places = this.value
+        database.ref(path(j,h) + "/places").set(places)
     });
 });
 
@@ -54,8 +57,9 @@ document.getElementById("demandes").addEventListener("click", function() {
     window.location.href = "listes/demandes.html";
 });
 
-
+let inscrits
 function nbPersInscrit(nb){
+    inscrits = nb
     document.getElementById("inscrits").innerHTML = "inscrits (" + nb + ")"
 }
 nbPers(j,h,"inscrits",nbPersInscrit)
@@ -149,4 +153,25 @@ document.getElementById("inversed").addEventListener("click", function() {
         }
     }
 });
+
+document.getElementById("start algo").addEventListener("click", function() {
+    let classes = []
+    console.log("start algo")
+    for(let n in cbClasses){
+        for(let i in cbClasses[n]){
+            if(cbClasses[n][i].checked){
+                classes.push(listNiveau[n][i])
+            }
+             
+        }
+    }
+    tri(classes,places,inscrits)
+});
+
+function tri(classes,places,inscrits){
+    console.log("authorised class",classes)
+    getStat(j,h,"demandes")
+    
+
+}
 

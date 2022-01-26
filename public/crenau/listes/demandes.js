@@ -42,6 +42,12 @@ setTimeout(function() {
             let del = document.createElement("button")
             del.addEventListener("click", function() {
                 console.log("del")
+                database.ref(path(j,h) + "/demandes/" + users[u]).remove()
+
+                console.log(delLinkTag[u])
+                for(let l in delLinkTag[u]){
+                    database.ref(path(j,h) + "/demandes/" + users[delLinkTag[u][l]]).remove()
+                }
             })
             del.innerHTML = "retirer (" + delLinkTag[u].length + ")"
 
@@ -54,7 +60,6 @@ setTimeout(function() {
             let add = document.createElement("button")
             add.addEventListener("click", function() {
                 console.log("add")
-                console.log("add : " + path(j,h) + "/inscrits/" + users[u] + "/score")
                 console.log(users)
                 console.log(u)
                 for(let a in amis[u]){
