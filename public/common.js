@@ -225,6 +225,11 @@ function getStat(j,h,type){
 
 }
 
+//randint
+function randint(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 //nb pers
 function nbPers(j,h,type,func){
     console.log(path(j,h)+"/" + type)
@@ -335,4 +340,26 @@ function autocomplete(inp, arr) {
   document.addEventListener("click", function (e) {
       closeAllLists(e.target);
   });
+}
+
+
+//inscrire (passer de demandes à inscrit)
+function inscrire(j,h,u){
+    for(let a in amis[u]){
+        database.ref(path(j,h) + "/inscrits/" + users[u] + "/amis/" + amis[u][a]).set(0)
+    }
+    database.ref(path(j,h) + "/inscrits/" + users[u] + "/score").set(usersScore[u])
+    database.ref(path(j,h) + "/demandes/" + users[u]).remove()
+
+    console.log(addLinkTag[u])
+    for(let l in addLinkTag[u]){
+        let num = addLinkTag[u][l]
+        console.log("user : " + users[num] + " / " + num)
+        for(let a in amis[num]){
+            database.ref(path(j,h) + "/inscrits/" + users[num] + "/amis/" + amis[num][a]).set(0)
+        }
+        database.ref(path(j,h) + "/inscrits/" + users[num] + "/score").set(usersScore[num])
+        database.ref(path(j,h) + "/demandes/" + users[num]).remove()
+    }
+    return addLinkTag[u].length + 1
 }

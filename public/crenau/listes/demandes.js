@@ -22,15 +22,15 @@ let j = sessionStorage.getItem("j");
 let h = parseInt(sessionStorage.getItem("h"));
 console.log(path(j,h));
 
-let divDemandes = document.getElementById("liste")
+let divListe = document.getElementById("liste")
 
 getStat(j,h,"demandes")
 setTimeout(function() {
     
     if(users.length == 0){
-        divDemandes.innerHTML = "aucun utilisateurs"
+        divListe.innerHTML = "aucun utilisateurs"
     }else{
-        divDemandes.innerHTML = ""
+        divListe.innerHTML = ""
         for(let u in users){
            
             let divPers = document.createElement("div")
@@ -66,6 +66,7 @@ setTimeout(function() {
                     database.ref(path(j,h) + "/inscrits/" + users[u] + "/amis/" + amis[u][a]).set(0)
                 }
                 database.ref(path(j,h) + "/inscrits/" + users[u] + "/score").set(usersScore[u])
+                database.ref(path(j,h) + "/inscrits/" + users[u] + "/score").set(usersClasse[u])
                 database.ref(path(j,h) + "/demandes/" + users[u]).remove()
 
                 console.log(addLinkTag[u])
@@ -76,10 +77,14 @@ setTimeout(function() {
                         database.ref(path(j,h) + "/inscrits/" + users[num] + "/amis/" + amis[num][a]).set(0)
                     }
                     database.ref(path(j,h) + "/inscrits/" + users[num] + "/score").set(usersScore[num])
+                    database.ref(path(j,h) + "/inscrits/" + users[u] + "/score").set(usersClasse[num])
                     database.ref(path(j,h) + "/demandes/" + users[num]).remove()
                 }
             })
             add.innerHTML = "inscrire (" + addLinkTag[u].length + ")"
+
+            let classe = document.createElement("button")
+            classe.innerHTML = usersClasse[u]
 
             let score = document.createElement("button")
             score.innerHTML = usersScore[u] + " pts"
@@ -88,11 +93,13 @@ setTimeout(function() {
             divPers.appendChild(del);
             divPers.appendChild(wait);
             divPers.appendChild(add);
+            divPers.appendChild(classe);
             divPers.appendChild(score);
-            divDemandes.appendChild(divPers);
+            
+            divListe.appendChild(divPers);
         }
     }
     
         
         
-},200);
+},1000);

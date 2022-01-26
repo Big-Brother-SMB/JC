@@ -177,7 +177,7 @@ function robi(pers,sc,usc,amis, places,j,h){
                 boucle = true
                 console.log("score suivant : " + scMin)
             }else{
-                let alea = 47//randint(0, score[scMin].length - 1)
+                let alea = randint(0, score[scMin].length - 1)
                 let i = alea
                 do{
                     del = score[scMin][i]

@@ -154,7 +154,7 @@ document.getElementById("inversed").addEventListener("click", function() {
     }
 });
 
-document.getElementById("start algo").addEventListener("click", function() {
+/*document.getElementById("start algo").addEventListener("click", function() {
     let classes = []
     console.log("start algo")
     for(let n in cbClasses){
@@ -168,10 +168,28 @@ document.getElementById("start algo").addEventListener("click", function() {
     tri(classes,places,inscrits)
 });
 
-function tri(classes,places,inscrits){
+function tri(classes,p,inscrits){
     console.log("authorised class",classes)
     getStat(j,h,"demandes")
-    
+    let places = p - inscrits
+    let ajout = 0
+    while(ajout < places){
+        let alea = randint(0, score[scMin].length - 1)
+                let i = alea
+                do{
+                    let ok = classes.indexOf(usersClasse[i]) != -1
+                    for(let a in addLinkTag[i]){
+                        if(classes.indexOf(usersClasse[i]) == -1){
+                            ok = false
+                        }
+                    }
+                    if(ok){
+                        ajout = ajout + inscrire(j,h,i)
+                    }
+                    i++
+                    
+                }while(!ok && i != alea)
+    }
 
-}
+}*/
 

@@ -22,15 +22,15 @@ let j = sessionStorage.getItem("j");
 let h = parseInt(sessionStorage.getItem("h"));
 console.log(path(j,h));
 
-let divInscrit = document.getElementById("liste")
+let divListe = document.getElementById("liste")
 
-getStat(j,h,"inscrit")
+getStat(j,h,"inscrits")
 setTimeout(function() {
     
     if(users.length == 0){
-        divDemandes.innerHTML = "aucun utilisateurs"
+        divListe.innerHTML = "aucun utilisateurs"
     }else{
-        divDemandes.innerHTML = ""
+        divListe.innerHTML = ""
         for(u in users){
             let divPers = document.createElement("div")
             //divPers.style.display = "inline-block"
@@ -49,17 +49,22 @@ setTimeout(function() {
             wait.innerHTML = "Mettre sur liste d'attente (" + delLinkTag[u].length + ")"
 
 
+            let classe = document.createElement("button")
+            classe.innerHTML = usersClasse[u]
+
             let score = document.createElement("button")
             score.innerHTML = usersScore[u] + " pts"
 
             divPers.appendChild(pers);
             divPers.appendChild(del);
             divPers.appendChild(wait);
+            divPers.appendChild(classe);
             divPers.appendChild(score);
-            divDemandes.appendChild(divPers);
+            
+            divListe.appendChild(divPers);
         }
     }
     
         
         
-},200);
+},1000);
