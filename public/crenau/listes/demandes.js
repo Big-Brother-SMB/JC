@@ -20,7 +20,7 @@ const menu = "../../menu/menu.html"
 let user = sessionStorage.getItem("user");
 let j = sessionStorage.getItem("j");
 let h = parseInt(sessionStorage.getItem("h"));
-console.log(path(j,h));
+console.log("hello2");
 
 let divListe = document.getElementById("liste")
 
@@ -60,11 +60,17 @@ setTimeout(function() {
                     let p = addLinkTag[u][pers]
                     let name = users[p]
                     console.log(name)
-                    database.ref(path(j,h) + "/inscrits/" + name).set(usersScore[p])
-                    database.ref(path(j,h) + "/demandes/" + name).remove()
+                    let score = usersScore[p]
+                    if(score == null){
+                        score = 0
+                    }
+                    database.ref(path(j,h) + "/inscrits/" + name).set(score)
+                    
                 }
                 database.ref(path(j,h) + "/inscrits/" + users[u]).once("value", function(snapshot) {
-                    if(snapshot.val() != null){
+                    console.log(users[u] + ":" + snapshot.val())
+                    if(snapshot.key == users[u] && snapshot.val() != null){
+                        database.ref(path(j,h) + "/demandes/" + name).remove()
                         reload()
                     }
                 });
