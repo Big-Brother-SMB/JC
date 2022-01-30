@@ -55,7 +55,6 @@ setTimeout(function() {
             let add = document.createElement("button")
             add.addEventListener("click", function() {
                 console.log("add")
-                console.log(users)
                 console.log(u)
                 for(let pers in addLinkTag[u]){
                     let p = addLinkTag[u][pers]
@@ -64,6 +63,11 @@ setTimeout(function() {
                     database.ref(path(j,h) + "/inscrits/" + name).set(usersScore[p])
                     database.ref(path(j,h) + "/demandes/" + name).remove()
                 }
+                database.ref(path(j,h) + "/inscrits/" + users[u]).once("value", function(snapshot) {
+                    if(snapshot.val() != null){
+                        reload()
+                    }
+                });
 
                 /*for(let a in amis[u]){
                     database.ref(path(j,h) + "/inscrits/" + users[u] + "/amis/" + amis[u][a]).set(0)

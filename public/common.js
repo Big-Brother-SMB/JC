@@ -57,6 +57,11 @@ function path(j,h){
     return "foyer_midi/semaine"+week+"/" + dayNum[j] + "/" + (11 + h) + "h"
 }
 
+//reload
+function reload(){
+    window.location.reload(true)
+}
+
 //modes
 let listMode = ["horaire non planifié","ouvert","fermé","uniquement inscription","uniquement désinscription","ouvert mais plus de changements","vacances","aleatoire","calcul","fini"]
 
