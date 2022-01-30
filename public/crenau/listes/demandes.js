@@ -51,18 +51,21 @@ setTimeout(function() {
             })
             del.innerHTML = "retirer (" + delLinkTag[u].length + ")"
 
-            let wait = document.createElement("button")
-            wait.addEventListener("click", function() {
-                console.log("wait")
-            })
-            wait.innerHTML = "Mettre sur liste d'attente (" + addLinkTag[u].length + ")"
-            
+           
             let add = document.createElement("button")
             add.addEventListener("click", function() {
                 console.log("add")
                 console.log(users)
                 console.log(u)
-                for(let a in amis[u]){
+                for(let pers in addLinkTag[u]){
+                    let p = addLinkTag[u][pers]
+                    let name = users[p]
+                    console.log(name)
+                    database.ref(path(j,h) + "/inscrits/" + name).set(usersScore[p])
+                    database.ref(path(j,h) + "/demandes/" + name).remove()
+                }
+
+                /*for(let a in amis[u]){
                     database.ref(path(j,h) + "/inscrits/" + users[u] + "/amis/" + amis[u][a]).set(0)
                 }
                 database.ref(path(j,h) + "/inscrits/" + users[u] + "/score").set(usersScore[u])
@@ -79,7 +82,7 @@ setTimeout(function() {
                     database.ref(path(j,h) + "/inscrits/" + users[num] + "/score").set(usersScore[num])
                     database.ref(path(j,h) + "/inscrits/" + users[u] + "/score").set(usersClasse[num])
                     database.ref(path(j,h) + "/demandes/" + users[num]).remove()
-                }
+                }*/
             })
             add.innerHTML = "inscrire (" + addLinkTag[u].length + ")"
 
@@ -91,7 +94,6 @@ setTimeout(function() {
 
             divPers.appendChild(pers);
             divPers.appendChild(del);
-            divPers.appendChild(wait);
             divPers.appendChild(add);
             divPers.appendChild(classe);
             divPers.appendChild(score);

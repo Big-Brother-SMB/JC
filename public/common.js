@@ -42,7 +42,7 @@ let week = readIntCookie("week")
 
 // semaine
 
-let actualWeek = 4;
+let actualWeek = 5;
 const day = ["Lundi", "Mardi","Jeudi","Vendredi"];
 const dayWithMer = ["1lundi", "2mardi","err","3jeudi","4vendredi"]
 const dayNum = ["1lundi", "2mardi","3jeudi","4vendredi"];
@@ -91,7 +91,7 @@ function getStat(j,h,type){
             delLinkTag[i] = []
             
             let num = i
-            database.ref(path(j,h)+"/" + type + "/" + user +"/amis").once("value", function(snapshot) {
+            database.ref(path(j,h)+"/users/" + user +"/amis").once("value", function(snapshot) {
                 snapshot.forEach(function(child) {
                     let ami = child.key
                     amis[num].push(ami)
@@ -105,7 +105,7 @@ function getStat(j,h,type){
         
         for(let u in users){
             let user = users[u] 
-            database.ref(path(j,h)+"/"+ type + "/" + user + "/score").once("value", function(snapshot) {
+            database.ref(path(j,h)+"/users/" + user + "/score").once("value", function(snapshot) {
                 let sc = snapshot.val()
                 if(nbScores[sc] == null){
                     nbScores[sc] = []
@@ -118,7 +118,7 @@ function getStat(j,h,type){
 
         for(let u in users){
             let user = users[u] 
-            database.ref(path(j,h)+"/"+ type + "/" + user + "/classe").once("value", function(snapshot) {
+            database.ref(path(j,h)+"/users/" + user + "/classe").once("value", function(snapshot) {
                 let c = snapshot.val()
                 if(c == null){
                     usersClasse.push("none")
@@ -157,7 +157,7 @@ function getStat(j,h,type){
         }
         for(let u in users){
             for(let a in amisTag[u]){
-                linkedTag[amisTag[u][a]].push(u)
+                linkedTag[amisTag[u][a]].push(parseInt(u))
                 
             }
             
@@ -168,7 +168,7 @@ function getStat(j,h,type){
         
         let actUser
         function searchAmis(u){
-            if(addLinkTag[actUser].indexOf(u) == -1 && u != actUser){
+            if(addLinkTag[actUser].indexOf(u) == -1){
                 addLinkTag[actUser].push(u)
                 for(a in amisTag[u]){
                     searchAmis(amisTag[u][a])
@@ -178,19 +178,16 @@ function getStat(j,h,type){
         }
 
         for(let u in users){
-            actUser = u
+            actUser = parseInt(u)
             addLinkTag[actUser] = []
-            
-            for(a in amisTag[u]){
-                searchAmis(amisTag[u][a])
-            }
+            searchAmis(actUser)
         }
 
         //del link -> users needed to delete if you delete this user
 
         
         function searchLink(u){
-            if(delLinkTag[actUser].indexOf(u) == -1 && u != actUser){
+            if(delLinkTag[actUser].indexOf(u) == -1){
                 delLinkTag[actUser].push(u)
                 for(l in linkedTag[u]){
                     searchLink(linkedTag[u][l])
@@ -200,21 +197,19 @@ function getStat(j,h,type){
         }
 
         for(let u in users){
-            actUser = u
+            actUser = parseInt(u)
             delLinkTag[actUser] = []
-            
-            for(l in linkedTag[u]){
-                searchLink(linkedTag[u][l])
-            }
+            searchLink(actUser)
         }
 
 
 
-        console.log(users)
+        console.log("users",users)
+        console.log("amis",amis)
         console.log(amisTag)
-        console.log(addLinkTag)
+        console.log("addLinkTag",addLinkTag)
         console.log(linkedTag)
-        console.log(delLinkTag)
+        console.log("delLinkTag",delLinkTag)
         console.log("classes",classes)
         console.log(usersClasse)
         console.log(nbScores)
@@ -361,5 +356,5 @@ function inscrire(j,h,u){
         database.ref(path(j,h) + "/inscrits/" + users[num] + "/score").set(usersScore[num])
         database.ref(path(j,h) + "/demandes/" + users[num]).remove()
     }
-    return addLinkTag[u].length + 1
+    return addLinkTag[u].length
 }
