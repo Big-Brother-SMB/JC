@@ -70,6 +70,7 @@ setTimeout(function() {
                     try{
                         database.ref("users/" + users[p] + "/email").once("value",function(snapshot){
                             let email = snapshot.val()
+                            let prenom = users[p].split(" ")[0]
                             console.log(email)
                         Email.send({
                             Host: "smtp.gmail.com",
@@ -78,7 +79,7 @@ setTimeout(function() {
                             To: email,
                             From: "foyer.beaucamps@gmail.com",
                             Subject: "Inscription validée",
-                            Body: "Votre inscription au foyer a été validée",
+                            Body: "Bonjour " + prenom + ", ton inscription au foyer a été validée",
                           })
                             .then(function (message) {
                               console.log("mail sent successfully to " + email)
@@ -89,7 +90,7 @@ setTimeout(function() {
                                     console.log("ok -> " + nbOk)
                                     if(nbOk == addLinkTag[u].length){
                                         console.log("reload ")
-                                      reload()
+                                        reload()
                                     }
                                 }
                             });
