@@ -56,6 +56,7 @@ setTimeout(function() {
             add.addEventListener("click", function() {
                 console.log("add")
                 console.log(u)
+                let nbOk = 0;
                 for(let pers in addLinkTag[u]){
                     let p = addLinkTag[u][pers]
                     let name = users[p]
@@ -65,15 +66,53 @@ setTimeout(function() {
                         score = 0
                     }
                     database.ref(path(j,h) + "/inscrits/" + name).set(score)
-                    
+                    database.ref(path(j,h) + "/demandes/" + name).remove()
+                    try{
+                        database.ref("users/" + users[p] + "/email").once("value",function(snapshot){
+                            let email = snapshot.val()
+                            console.log(email)
+                        Email.send({
+                            Host: "smtp.gmail.com",
+                            Username: "foyer.beaucamps@gmail.com",
+                            Password: "beaucamps",
+                            To: email,
+                            From: "foyer.beaucamps@gmail.com",
+                            Subject: "Inscription validée",
+                            Body: "Votre inscription au foyer a été validée",
+                          })
+                            .then(function (message) {
+                              console.log("mail sent successfully to " + email)
+                              database.ref(path(j,h) + "/inscrits/" + users[p]).once("value", function(snapshot) {
+                                console.log(users[p] + ":" + snapshot.val())
+                                if(snapshot.val() != null){
+                                    nbOk++
+                                    console.log("ok -> " + nbOk)
+                                    if(nbOk == addLinkTag[u].length){
+                                        console.log("reload ")
+                                      reload()
+                                    }
+                                }
+                            });
+                              
+                            });
+                        })
+                        
+                    }catch(exception){
+                        console.log(exception)
+                    }
                 }
-                database.ref(path(j,h) + "/inscrits/" + users[u]).once("value", function(snapshot) {
+
+                
+                      
+                  
+                      
+                /*database.ref(path(j,h) + "/inscrits/" + users[u]).once("value", function(snapshot) {
                     console.log(users[u] + ":" + snapshot.val())
                     if(snapshot.key == users[u] && snapshot.val() != null){
                         database.ref(path(j,h) + "/demandes/" + name).remove()
                         reload()
                     }
-                });
+                });*/
 
                 /*for(let a in amis[u]){
                     database.ref(path(j,h) + "/inscrits/" + users[u] + "/amis/" + amis[u][a]).set(0)
