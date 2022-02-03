@@ -64,7 +64,7 @@ let bouton = [];
 let total = [];
 let demandes = [];
 let places = [];
-let inscrit = []
+let inscrits = []
 let ouvert = []
 let nbAmis = []
 
@@ -81,7 +81,7 @@ for(let j = 0; j < 4; j++){
     places[j] = []
     demandes[j] = []
     nbAmis[j] = []
-    inscrit[j] = [false,false]
+    inscrits[j] = []
     ouvert[j] = [0,0]
     for(let h = 0; h < 2; h++){
         bouton[j][h] = document.createElement("button")
@@ -138,6 +138,15 @@ function refreshDatabase(){
                 });
             });
 
+            inscrits[j][h] = 0
+      
+            database.ref(path(j,h) + "/inscrits").once("value", function(snapshot) {
+                snapshot.forEach(function(child) {
+                    inscrits[j][h] = inscrits[j][h] + 1
+                    update(j, h);
+                });
+            });
+
         
         }
     }
@@ -146,7 +155,7 @@ function refreshDatabase(){
 
 function update(j,h){
 
-    places[j][h] = total[j][h] - demandes[j][h];
+    places[j][h] = total[j][h] - inscrits[j][h];
     setTimeout(updateAffichage(j,h),1000);
 }
 
@@ -197,12 +206,9 @@ function updateAffichage(j,h){
             bouton[j][h].className="ferme"
             break;
         case 7:
-            if(places[j][h] <= 0){
-                
-            }else{
-                bouton[j][h].className="places"
-            }
-            text = demandes[j][h] + "/" + total[j][h]
+            bouton[j][h].className="places"
+            
+            text = demandes[j][h] + " demandes sur " + places[j][h] + " places restantes (" + inscrits[j][h] + " inscrits)"
             break;
         case 8:
             text = "calcul en cours"
