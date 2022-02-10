@@ -14,6 +14,23 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database()
 
+var storage = firebase.storage();
+
+const fileInput = document.getElementById('files');
+fileInput.onchange = () => {
+  const selectedFile = fileInput.files[0];
+  storage.ref(selectedFile.name).put(selectedFile)
+  console.log(selectedFile);
+  setTimeout(function(){
+    storage.ref(selectedFile.name).getDownloadURL().then(function(url){
+        document.getElementById('img').innerHTML = "<img src=\""+url +"\">"
+      });
+  },1000);
+  
+}
+
+
+
 
 //window.location.href = "../index.html";
 
