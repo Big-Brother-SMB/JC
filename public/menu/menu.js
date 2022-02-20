@@ -117,7 +117,7 @@ let nbFois;
 //refreshDatabase();
 function refreshDatabase(){
 
-    let sn = ["31 janvier au 4 février","7 au 11 févier","14 au 18 févier"]
+    let sn = ["21 au 25 févier","28 au 4 mars","7 au 11 mars","14 au 18 mars","21 au 25 mars","28 au 1 avril","4 au 8 avril","11 au 15 avril"]
 
     let text = "semaine du " + sn[week-actualWeek] 
     if(week == actualWeek){
