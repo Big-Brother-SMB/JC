@@ -254,7 +254,10 @@ function algo(){
                                 console.log("mail sent successfully to " + email)
                                 nbEmail++
                                 if(fini){
-                                    document.getElementById("start algo").innerHTML = "fini, " + (inscrits - dejaInscrit) + " inscriptions<br>il reste " + (places - inscrits) + " places<br>appuyer pour reload<br>Email envoyés : " + nbEmail
+                                    document.getElementById("start algo").innerHTML = "fini, " + (inscrits - dejaInscrit) + " inscriptions<br>il reste " + (places - inscrits) + " places<br>appuyer pour reload<br>Email : " + nbEmail + "/" + (inscrits - dejaInscrit)
+                                    if(nbEmail == (inscrits - dejaInscrit)){
+                                        document.getElementById("start algo").innerHTML = "fini, " + (inscrits - dejaInscrit) + " inscriptions<br>il reste " + (places - inscrits) + " places<br>appuyer pour reload<br>Email : fini"
+                                    }
                                 }
                                 });
                             })
