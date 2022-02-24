@@ -1,0 +1,22 @@
+<p>Filtre : <br>
+      <select>
+        <option>Score</option>
+        <option>Classe</option>
+      </select>
+    </p>
+
+    <p>amis : <br>
+      <select>
+        <option>Uniquement les personnes de ces classes</option>
+        <option>Les personnes de ces classes et leurs amis</option>
+      </select>
+    </p>
+
+    <article style="width: 70%; margin-left: auto;margin-right: auto;">
+    <div>
+      <button id="select all" class="selection">Tout sélectioner</button>
+      <button id="select none" class="selection">Tout retirer</button>
+      <button id="inversed" class="selection">Inverser la sélection</button>
+    </div>
+    <div id="classes"></div>
+  </article>

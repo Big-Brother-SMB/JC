@@ -68,7 +68,7 @@ document.getElementById("inscrits").addEventListener("click", function() {
     window.location.href = "listes/inscrits.html";
 });
 
-let divClasses = document.getElementById("classes")
+/*let divClasses = document.getElementById("classes")
 let cbClasses = []
 console.log(listNiveau)
 for(let n in listNiveau){
@@ -152,7 +152,7 @@ document.getElementById("inversed").addEventListener("click", function() {
             cbClasses[n][i].checked = !cbClasses[n][i].checked
         }
     }
-});
+});*/
 
 /*document.getElementById("start algo").addEventListener("click", function() {
     let classes = []
@@ -192,4 +192,112 @@ function tri(classes,p,inscrits){
     }
 
 }*/
+document.getElementById("start algo").addEventListener("click", function() {
+    algo()
+})
+
+function algo(){
+    document.getElementById("start algo").innerHTML = "veuillez patienter"
+    let places
+    database.ref(path(j,h) + "/places").once('value').then(function(snapshot) {
+        places = snapshot.val();
+    });
+    let inscrits = 0
+    let dejaInscrit
+    database.ref(path(j,h) + "/inscrits").once('value').then(function(snapshot) {
+        snapshot.forEach(function(child) {
+            inscrits++
+        })
+        dejaInscrit = inscrits
+    });
+    
+    getStat(j,h,"demandes")
+    setTimeout(function() {
+        let tag = []
+        for(let u in users){
+            tag[u] = false
+        }
+        
+        let alea = randint(0, users.length - 1)
+        let base = alea
+        let nbEmail = 0
+        let fini = false
+
+        while(places > inscrits){
+            console.log("inscrit",inscrits)
+            if(!tag[alea] && addLinkTag[alea].length <= places - inscrits){
+                for(let pers in addLinkTag[alea]){
+                    let p = addLinkTag[alea][pers]
+                    if(!tag[p]){
+                        let name = users[p]
+                        let score = usersScore[p]
+                        if(score == null){
+                            score = 0
+                        }
+                        database.ref(path(j,h) + "/inscrits/" + name).set(score)
+                        database.ref(path(j,h) + "/demandes/" + name).remove()
+                        try{
+                            database.ref("users/" + users[p] + "/email").once("value",function(snapshot){
+                                let email = snapshot.val()
+                                let prenom = users[p].split(" ")[0]
+                                console.log(email)
+                            Email.send({
+                                Host: "smtp.gmail.com",
+                                Username: "foyer.beaucamps@gmail.com",
+                                Password: "beaucamps",
+                                To: email,
+                                From: "foyer.beaucamps@gmail.com",
+                                Subject: "Inscription validée",
+                                Body: "Bonjour " + prenom + ", ton inscription au foyer a été validée",
+                            })
+                                .then(function (message) {
+                                console.log("mail sent successfully to " + email)
+                                nbEmail++
+                                if(fini){
+                                    document.getElementById("start algo").innerHTML = "fini, " + (inscrits - dejaInscrit) + " inscriptions<br>il reste " + (places - inscrits) + " places<br>appuyer pour reload<br>Email envoyés : " + nbEmail
+                                }
+                                });
+                            })
+                            
+                        }catch(exception){
+                            console.log(exception)
+                        }
+                        console.log("inscrit : " + name)
+                        tag[p] = true
+                        inscrits++
+                    }
+                    
+                }
+                alea = randint(0, users.length - 1)
+                base = alea
+            }else{
+                alea++  
+                if(alea > users.length - 1){
+                    alea = 0
+                }
+                if(alea == base){
+                    console.log("plus de possibilité")
+                    break
+                }
+                
+            }
+        }
+        console.log("plus de places")
+        database.ref("test").once("value", function(snapshot) {
+            fini = true
+            if(snapshot.val() == "test"){
+                document.getElementById("start algo").innerHTML = "fini, " + (inscrits - dejaInscrit) + " inscriptions<br>il reste " + (places - inscrits) + " places<br>appuyer pour reload<br>Email envoyés : " + nbEmail
+            }else{
+                document.getElementById("start algo").innerHTML = "Une erreur a eu lieu,<br>appuyer pour reload<br>(" + (inscrits - dejaInscrit) + " inscrits, reste " + (places - inscrits) + " places)"
+                
+            }
+            document.getElementById("start algo").addEventListener("click", function() {
+                reload()
+            })
+        });
+        
+        
+    },1000);
+}
+
 
