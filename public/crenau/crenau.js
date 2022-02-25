@@ -248,7 +248,7 @@ function algo(){
                                 To: email,
                                 From: "foyer.beaucamps@gmail.com",
                                 Subject: "Inscription validée",
-                                Body: "Bonjour " + prenom + ", ton inscription au foyer a été validée",
+                                Body: "Bonjour " + prenom + ", ton inscription au foyer le " + day[j] + " à " + (h+11) + "h a été validée",
                             })
                                 .then(function (message) {
                                 console.log("mail sent successfully to " + email)
