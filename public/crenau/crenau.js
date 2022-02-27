@@ -251,7 +251,7 @@ function algo(){
                                 Body: "Bonjour " + prenom + ", ton inscription au foyer le " + day[j] + " à " + (h+11) + "h a été validée",
                             })
                                 .then(function (message) {
-                                console.log("mail sent successfully to " + email)
+                                console.log("mail sent successfully to " + email,message)
                                 nbEmail++
                                 if(fini){
                                     document.getElementById("start algo").innerHTML = "fini, " + (inscrits - dejaInscrit) + " inscriptions<br>il reste " + (places - inscrits) + " places<br>appuyer pour reload<br>Email : " + nbEmail + "/" + (inscrits - dejaInscrit)
