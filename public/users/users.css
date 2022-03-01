@@ -8,10 +8,17 @@ select{
     width: 200px;
   }    
 
+#addPrio{
+  width: 500px;
+}
 
+article{
+  align-items: center;
+}
 body,
     h1
     {
+      
       margin: 0;
       padding: 0;
       font-size: 30px;
@@ -74,12 +81,13 @@ body,
       padding: 15px 50px;
       }
 
-      .amis{
+      .priorites{
         background-color: #8b9fc9;
         border-radius:8px 8px 8px 8px;
         padding: .75rem;
         margin: .25em;
         height: 50px;
+        width: 97%;
       }
 
 
