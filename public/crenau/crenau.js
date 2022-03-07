@@ -249,6 +249,7 @@ function algo(){
                             score = 0
                         }
                         database.ref(path(j,h) + "/inscrits/" + name).set(score)
+                        database.ref("users/" + name + "/inscriptions/semaine" + week + "-" + day[j] + "-" + (11 + h) + "h").set(addLinkTag[p].length)
                         database.ref(path(j,h) + "/demandes/" + name).remove()
                         try{
                             database.ref("users/" + users[p] + "/email").once("value",function(snapshot){
