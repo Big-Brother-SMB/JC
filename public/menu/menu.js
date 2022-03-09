@@ -48,6 +48,11 @@ document.getElementById("users").addEventListener("click", function() {
 
 });
 
+document.getElementById("pass").addEventListener("click", function() {
+    window.location.href = "../pass/pass.html";
+
+});
+
 
 const body = document.getElementById("body");
 const jour = ["lundi", "mardi","jeudi","vendredi"];
