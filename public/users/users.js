@@ -6,6 +6,8 @@ let bAddScore = document.getElementById("score ajouter")
 let valScore = document.getElementById("score value")
 let nameScore = document.getElementById("score name")
 
+let codeCarte = document.getElementById("code carte")
+let infoCodeCarte = document.getElementById("info code barre")
 
 for(i in listClasse){
     let opt = document.createElement("option")
@@ -119,7 +121,28 @@ document.getElementById("search").addEventListener("change", function() {
             }
             
         });
-
+        let codeBar
+        database.ref("users/" + utilisateur + "/code barre").once('value').then(function(snapshot) {
+            codeBar = snapshot.val()
+            codeCarte.value = codeBar
+            codeCarte.addEventListener("change", function() {
+                infoCodeCarte.innerHTML = ""
+                let val = codeCarte.value
+                if(String(val).length  == 5 && val != codeBar){
+                    database.ref("codes barres/" + val).once('value',function(snapshot) {
+                        if(snapshot.val() == null){
+                            database.ref("codes barres/" + codeBar).remove()
+                            codeBar = val
+                            database.ref("codes barres/" + codeBar).set(utilisateur)
+                            database.ref("users/" + utilisateur + "/code barre").set(codeBar)
+                        }else{
+                            infoCodeCarte.innerHTML = "ce code barre est déjà attribué"
+                        }
+                    })
+                }
+            });
+            
+        });
 
 
         let bPrio = []
