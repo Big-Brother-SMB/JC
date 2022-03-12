@@ -1,12 +1,19 @@
 let divClasse = document.getElementById("classe")
 
+let pScore = document.getElementById("score")
+let divScoreEvent = document.getElementById("divScoreEvent")
+let bAddScore = document.getElementById("score ajouter")
+let valScore = document.getElementById("score value")
+let nameScore = document.getElementById("score name")
+
+
 for(i in listClasse){
     let opt = document.createElement("option")
     opt.innerHTML = listClasse[i]
     divClasse.appendChild(opt);
 }
 
-let divScore = document.getElementById("score")
+
 
 let divPrio = document.getElementById("prio")
 let addPrio = document.getElementById("addPrio")
@@ -49,13 +56,72 @@ document.getElementById("search").addEventListener("change", function() {
                 database.ref("users/" + utilisateur + "/classe").set(listClasse[this.selectedIndex])
                 });
         });
-        
+
+        let score = 0
         database.ref("users/" + utilisateur + "/score").once('value').then(function(snapshot) {
-            divScore.value = snapshot.val();
-            divScore.addEventListener("change", function() {
-                database.ref("users/" + utilisateur + "/score").set(this.value)
-            });
+            snapshot.forEach(function(child) {
+                addScoreEvent(child.key) 
+            })
         });
+
+        function addScoreEvent(hashCode){
+            let event = document.createElement("button")
+            event.classList.add("event")
+            divScoreEvent.appendChild(event);
+            let eventScore
+        
+            database.ref("users/" + utilisateur + "/score/" + hashCode + "/name").once('value').then(function(snapshot) {
+                let name = snapshot.val()
+                if(name == null){
+                    name = ""
+                }else{
+                    name += " : "
+                }
+                database.ref("users/" + utilisateur + "/score/" + hashCode + "/value").once('value').then(function(snapshot) {
+                    eventScore = parseFloat(snapshot.val())
+                    event.innerHTML = name + eventScore + "pts"
+        
+                    score += eventScore
+                    score = Math.round(score*100)/100
+                    if(score < 2){
+                        pScore.innerHTML = "Score : " + score + "pt";
+                    }else{
+                        pScore.innerHTML = "Score : " + score + "pts";
+                    }
+                }) 
+            })
+        
+        
+            event.addEventListener("click", function() {
+                database.ref("users/" + utilisateur + "/score/" + hashCode).remove()
+                divScoreEvent.removeChild(event);
+                score -= eventScore
+                score = Math.round(score*100)/100
+                if(score < 2){
+                    pScore.innerHTML = "Score : " + score + "pt";
+                }else{
+                    pScore.innerHTML = "Score : " + score + "pts";
+                }
+            })     
+        }
+
+        bAddScore.addEventListener("click", function() {
+            let val = parseFloat(valScore.value)
+            let name = nameScore.value
+            if(!isNaN(val) && name != ""){
+                let h = hash()
+                database.ref("users/" + utilisateur + "/score/" + h + "/name").set(name)
+                database.ref("users/" + utilisateur + "/score/" + h + "/value").set(val)
+                valScore.value = ""
+                nameScore.value = ""
+
+                addScoreEvent(h)
+            }
+            
+        });
+
+
+
         let bPrio = []
         for(let {} in priorites){
             bPrio.push(false)

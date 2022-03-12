@@ -103,14 +103,31 @@ input {
   padding: 10px;
   font-size: 50px;
 }
-input[type=text] {
-  background-color: #f1f1f1;
-  width: 100%;
-}
+
 input[type=submit] {
   background-color: DodgerBlue;
   color: #fff;
 }
+
+input[type=number]{
+  width: 150px;
+}
+
+#divScore{
+  align-items: center;
+  border: 1px solid black;
+}
+
+.event{
+  background-color: #8b9fc9;
+  border-radius:8px 8px 8px 8px;
+  padding: .75rem;
+  margin: .25em;
+  height: 50px;
+  width: 97%;
+}
+
+
 .autocomplete-items {
   position: absolute;
   border: 1px solid #d4d4d4;
