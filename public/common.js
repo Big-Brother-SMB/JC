@@ -73,13 +73,7 @@ function path(j,h){
 
 function hash(){
     let d =  new Date()
-    return d.getFullYear() + "-" + d.getMonth + "-" + d.getDay + " " +  d.getHours + ":" + d.getMinutes + ":" + d.getSeconds
-    
-    
-    
-    
-    
-    
+    return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + " " +  d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()  
 }
 
 //reload

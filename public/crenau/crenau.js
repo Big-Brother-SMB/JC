@@ -32,6 +32,22 @@ database.ref(path(j,h) + "/places").once('value').then(function(snapshot) {
 });
 
 
+let inCout = document.getElementById("cout")
+let cout
+database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
+    cout = snapshot.val();
+    inCout.value = cout
+    inCout.addEventListener("change", function() {
+        cout = Math.abs(this.value);
+        database.ref(path(j,h) + "/cout").set(cout)
+    });
+    if(snapshot.val() == null){
+        database.ref(path(j,h) + "/cout").set(-1)
+        inCout.value = 1
+    }
+});
+
+
 
 function nbPersDemande(nb){
     document.getElementById("demandes").innerHTML = "demandes (" + nb + ")"
@@ -195,6 +211,11 @@ function algo(){
         })
         dejaInscrit = inscrits
     });
+
+    let cout
+    database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
+        cout = snapshot.val();
+    });
     
     getStat(j,h,"demandes")
     setTimeout(function() {
@@ -249,9 +270,9 @@ function algo(){
                             score = 0
                         }
                         database.ref(path(j,h) + "/inscrits/" + name).set(score)
-                        let h = hash()
-                        database.ref("users/" + name + "/score/" + h + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
-                        database.ref("users/" + name + "/score/" + h + "/value").set(-1)
+                        let hashCode = hash()
+                        database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
+                        database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
                         
                         database.ref(path(j,h) + "/demandes/" + name).remove()
                         try{
