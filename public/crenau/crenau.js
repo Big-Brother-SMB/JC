@@ -42,7 +42,7 @@ database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
         database.ref(path(j,h) + "/cout").set(cout)
     });
     if(snapshot.val() == null){
-        database.ref(path(j,h) + "/cout").set(-1)
+        database.ref(path(j,h) + "/cout").set(1)
         inCout.value = 1
     }
 });
