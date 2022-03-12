@@ -27,7 +27,7 @@ database.ref("users").once("value", function(snapshot) {
     snapshot.forEach(function(child) {
         utilisateurs.push(child.key) 
     })
-    autocomplete(document.getElementById("search"), utilisateurs);
+    autocomplete(document.getElementById("search"), utilisateurs, function(truc){});
 })
 
 
