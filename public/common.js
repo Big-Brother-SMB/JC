@@ -62,7 +62,7 @@ const dayWithMer = ["1lundi", "2mardi","err","3jeudi","4vendredi"]
 const dayNum = ["1lundi", "2mardi","3jeudi","4vendredi"];
 
 //classe
-let listClasse = ["S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","1A","1B","1C","1D","1E","1F","1G","1H","1I","1J","1K","TA","TB","TC","TD","TE","TF","TG","TH","TI","TJ","TK","adultes"]
+const listClasse = ["SA","SB","SC","SD","SE","SF","SG","SH","SI","SJ","SK","SL","1A","1B","1C","1D","1E","1F","1G","1H","1I","1J","1K","TA","TB","TC","TD","TE","TF","TG","TH","TI","TJ","TK","PCSI","PC","professeur/personnel"]
 let listNiveau = [listClasse.slice(0, 11),listClasse.slice(11,22),listClasse.slice(22,33)]
 nomNiveau = ["secondes","premières","terminales"]
 //path
@@ -73,7 +73,12 @@ function path(j,h){
 
 function hash(){
     let d =  new Date()
-    return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + " " +  d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()  
+    return d.getFullYear()
+    + "-" + (String(d.getMonth()).length == 1?"0":"") + d.getMonth()
+    + "-" + (String(d.getDay()).length == 1?"0":"") + d.getDay()
+    + " " + (String(d.getHours()).length == 1?"0":"") + d.getHours()
+    + ":" + (String(d.getMinutes()).length == 1?"0":"") + d.getMinutes()
+    + ":" + (String(d.getSeconds()).length == 1?"0":"") + d.getSeconds()
 }
 
 //reload
@@ -90,7 +95,7 @@ let users = []
 let amis = []
 let amisTag = []
 
-let nbScores = []
+let gScore = []
 let usersScore = []
 
 let classes = []
@@ -128,14 +133,22 @@ function getStat(j,h,type){
         
         
         for(let u in users){
-            let user = users[u] 
-            database.ref(path(j,h)+"/users/" + user + "/score").once("value", function(snapshot) {
-                let sc = snapshot.val()
+            let name = users[u]
+            usersScore.push(0)
+            database.ref("users/" + name + "/score").once("value", function(snapshot) {
+                snapshot.forEach(function(child) {
+                    database.ref("users/" + name + "/score/" + child.key + "/value").once("value", function(snapshot2) {
+                        usersScore[u] += parseFloat(snapshot2.val())
+                        usersScore[u] =  Math.round(usersScore[u]*100)/100
+                        
+                    })
+                })
+                /*let sc = snapshot.val()
                 if(nbScores[sc] == null){
                     nbScores[sc] = []
                 }
                 nbScores[sc].push(u)
-                usersScore.push(sc)
+                usersScore.push(sc)*/
             })
             
         }
@@ -226,6 +239,17 @@ function getStat(j,h,type){
             searchLink(actUser)
         }
 
+        //gScore -> score of the group by add link
+        for(let u in users){
+            gScore[u] = usersScore[u]
+            for(a in addLinkTag[u]){
+                const num = addLinkTag[u][a]
+                if(usersScore[num] < gScore[u]){
+                    gScore[u] = usersScore[num]
+                }
+            }
+        }
+
 
 
         console.log("users",users)
@@ -236,7 +260,7 @@ function getStat(j,h,type){
         console.log("delLinkTag",delLinkTag)
         console.log("classes",classes)
         console.log(usersClasse)
-        console.log(nbScores)
+        console.log("group score", gScore)
         console.log("users score",usersScore)
 
     },1000);
