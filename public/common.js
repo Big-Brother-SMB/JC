@@ -140,17 +140,9 @@ function getStat(j,h,type){
                     database.ref("users/" + name + "/score/" + child.key + "/value").once("value", function(snapshot2) {
                         usersScore[u] += parseFloat(snapshot2.val())
                         usersScore[u] =  Math.round(usersScore[u]*100)/100
-                        
                     })
                 })
-                /*let sc = snapshot.val()
-                if(nbScores[sc] == null){
-                    nbScores[sc] = []
-                }
-                nbScores[sc].push(u)
-                usersScore.push(sc)*/
             })
-            
         }
 
         for(let u in users){
@@ -248,6 +240,7 @@ function getStat(j,h,type){
                     gScore[u] = usersScore[num]
                 }
             }
+            gScore[u] = Math.floor(gScore[u])
         }
 
 

@@ -223,11 +223,6 @@ function algo(){
         for(let u in users){
             tag[u] = false
         }
-        
-        let alea = randint(0, users.length - 1)
-        let base = alea
-        let nbEmail = 0
-        let fini = false
 
         function sendEmail(prenom,email){
             Email.send({
@@ -257,10 +252,16 @@ function algo(){
                 
             });
         }
-
-        while(places > inscrits){
+        
+        let alea = randint(0, users.length - 1)
+        let base = alea
+        let nbEmail = 0
+        let fini = false
+        var maxScore = Math.max(...gScore);
+        console.log("max score : " + maxScore)
+        while(places > inscrits && maxScore >= 0){
             console.log("inscrit",inscrits)
-            if(!tag[alea] && addLinkTag[alea].length <= places - inscrits){
+            if(!tag[alea] && gScore[alea] >= maxScore && addLinkTag[alea].length <= places - inscrits){
                 for(let pers in addLinkTag[alea]){
                     let p = addLinkTag[alea][pers]
                     if(!tag[p]){
@@ -300,8 +301,8 @@ function algo(){
                     alea = 0
                 }
                 if(alea == base){
-                    console.log("plus de possibilité")
-                    break
+                    maxScore--
+                    console.log("plus de possibilité pour ce score, nouveau : " + maxScore)
                 }
                 
             }

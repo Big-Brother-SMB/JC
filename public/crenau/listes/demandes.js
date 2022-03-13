@@ -127,11 +127,15 @@ setTimeout(function() {
             let score = document.createElement("button")
             score.innerHTML = usersScore[u] + " pts"
 
+            let groupScore = document.createElement("button")
+            groupScore.innerHTML = gScore[u] + " GP"
+
             divPers.appendChild(pers);
             divPers.appendChild(del);
             divPers.appendChild(add);
             divPers.appendChild(classe);
             divPers.appendChild(score);
+            divPers.appendChild(groupScore);
             
             divListe.appendChild(divPers);
         }
