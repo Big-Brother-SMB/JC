@@ -9,6 +9,14 @@ console.log("hello2");
 
 let divListe = document.getElementById("liste")
 
+let prio = []
+database.ref(path(j,h) + "/prio").once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+        prio.push(child.key)
+    })
+})
+
+
 getStat(j,h,"demandes")
 setTimeout(function() {
     
@@ -50,6 +58,7 @@ setTimeout(function() {
                     if(score == null){
                         score = 0
                     }
+                    database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
                     database.ref(path(j,h) + "/inscrits/" + name).set(score)
                     database.ref(path(j,h) + "/demandes/" + name).remove()
                     try{
@@ -130,13 +139,35 @@ setTimeout(function() {
             let groupScore = document.createElement("button")
             groupScore.innerHTML = gScore[u] + " GP"
 
+            let classAmis = document.createElement("div")
+            
+            for(let a in addLinkTag[u]){
+                let tag = addLinkTag[u][a]
+                let classAmi = document.createElement("button")
+                classAmi.innerHTML = usersClasse[tag]
+                classAmis.appendChild(classAmi)
+            }
+
+            let perPrio = document.createElement("button")
+            let nbPrio = 0
+            for(let a in addLinkTag[u]){
+                let tag = addLinkTag[u][a]
+                if(prio.indexOf(usersClasse[tag]) != -1){
+                    nbPrio++
+                }
+            }
+            perPrio.innerHTML = Math.round(nbPrio / addLinkTag[u].length * 100) + "%"
+
             divPers.appendChild(pers);
             divPers.appendChild(del);
             divPers.appendChild(add);
             divPers.appendChild(classe);
             divPers.appendChild(score);
             divPers.appendChild(groupScore);
-            
+            divPers.appendChild(perPrio);
+            /*divPers.innerHTML += "<br>"
+            divPers.appendChild(classAmis)*/
+
             divListe.appendChild(divPers);
         }
     }
