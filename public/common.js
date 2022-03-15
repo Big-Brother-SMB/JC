@@ -74,12 +74,12 @@ function path(j,h){
 function hash(){
     let d =  new Date()
     return d.getFullYear()
-    + "-" + (String(d.getMonth()).length == 1?"0":"") + d.getMonth()
-    + "-" + (String(d.getDay()).length == 1?"0":"") + d.getDay()
+    + "-" + (String((d.getMonth() + 1)).length == 1?"0":"") + (d.getMonth() + 1)
+    + "-" + (String(d.getDate()).length == 1?"0":"") + d.getDate()
     + " " + (String(d.getHours()).length == 1?"0":"") + d.getHours()
     + ":" + (String(d.getMinutes()).length == 1?"0":"") + d.getMinutes()
     + ":" + (String(d.getSeconds()).length == 1?"0":"") + d.getSeconds()
-}
+  }
 
 //reload
 function reload(){
