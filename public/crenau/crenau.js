@@ -69,13 +69,15 @@ document.getElementById("inscrits").addEventListener("click", function() {
     window.location.href = "listes/inscrits.html";
 });
 
-/*let divClasses = document.getElementById("classes")
+
+
+let divClasses = document.getElementById("classes")
 let cbClasses = []
 console.log(listNiveau)
 for(let n in listNiveau){
     cbClasses[n] = []
     let divNiveau = document.createElement("div")
-    divNiveau.style="display: inline-block;*display: inline"
+    divNiveau.style="display: inline-block;*display: inline;width:30%"
 
     let nSelectAll = document.createElement("button")
     nSelectAll.className = "bTriNiveau"
@@ -84,6 +86,7 @@ for(let n in listNiveau){
         console.log("niveau " + n + " select all")
         for(i in cbClasses[n]){
             cbClasses[n][i].checked = true
+            database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).set(0)
         }
         
     });
@@ -96,6 +99,7 @@ for(let n in listNiveau){
         console.log("niveau " + n + " select none")
         for(i in cbClasses[n]){
             cbClasses[n][i].checked = false
+            database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).remove()
         }
         
     });
@@ -108,6 +112,11 @@ for(let n in listNiveau){
         console.log("niveau " + n + " inversed")
         for(i in cbClasses[n]){
             cbClasses[n][i].checked = !cbClasses[n][i].checked
+            if(cbClasses[n][i].checked){
+                database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).set(0)
+            }else{
+                database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).remove()
+            }
         }
         
     });
@@ -119,20 +128,43 @@ for(let n in listNiveau){
         let opt = document.createElement("p")
         cbClasses[n][i] = document.createElement("input")
         cbClasses[n][i].type = "checkbox"
-        cbClasses[n][i].checked = true
+        //cbClasses[n][i].checked = true
         opt.innerHTML = listNiveau[n][i]
         opt.appendChild(cbClasses[n][i]);
+        cbClasses[n][i].addEventListener("click", function() {
+            if(cbClasses[n][i].checked){
+                database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).set(0)
+            }else{
+                database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).remove()
+            }
+           
+        })
         divNiveau.appendChild(opt);
     }
     divClasses.appendChild(divNiveau);
     
 }
 
+let prio = []
+database.ref(path(j,h) + "/prioritaires").once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+        let c = child.key
+        console.log(c)
+        prio.push(c)
+        let index = indexOf2dArray(listNiveau,c)
+        console.log("index prio : " + index)
+        if(index != -1){
+            cbClasses[index[0]][index[1]].checked = true
+        }
+    })
+})
+
 document.getElementById("select all").addEventListener("click", function() {
     console.log("select all")
     for(let n in cbClasses){
         for(let i in cbClasses[n]){
             cbClasses[n][i].checked = true
+            database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).set(0)
         }
     }
 });
@@ -142,6 +174,7 @@ document.getElementById("select none").addEventListener("click", function() {
     for(let n in cbClasses){
         for(let i in cbClasses[n]){
             cbClasses[n][i].checked = false
+            database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).remove()
         }
     }
 });
@@ -151,9 +184,14 @@ document.getElementById("inversed").addEventListener("click", function() {
     for(let n in cbClasses){
         for(let i in cbClasses[n]){
             cbClasses[n][i].checked = !cbClasses[n][i].checked
+            if(cbClasses[n][i].checked){
+                database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).set(0)
+            }else{
+                database.ref(path(j,h) + "/prioritaires/" + listNiveau[n][i]).remove()
+            }
         }
     }
-});*/
+});
 
 /*document.getElementById("start algo").addEventListener("click", function() {
     let classes = []
@@ -200,7 +238,7 @@ document.getElementById("start algo").addEventListener("click", function() {
 function algo(){
     document.getElementById("start algo").innerHTML = "veuillez patienter"
     let places
-    database.ref(path(j,h) + "/places").once('value').then(function(snapshot) {
+    database.ref(path(j,h) + "/places").once('value', function(snapshot) {
         places = snapshot.val();
     });
     let inscrits = 0

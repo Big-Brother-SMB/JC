@@ -63,7 +63,7 @@ const dayNum = ["1lundi", "2mardi","3jeudi","4vendredi"];
 
 //classe
 const listClasse = ["SA","SB","SC","SD","SE","SF","SG","SH","SI","SJ","SK","SL","1A","1B","1C","1D","1E","1F","1G","1H","1I","1J","1K","TA","TB","TC","TD","TE","TF","TG","TH","TI","TJ","TK","PCSI","PC","professeur/personnel"]
-let listNiveau = [listClasse.slice(0, 11),listClasse.slice(11,22),listClasse.slice(22,33)]
+let listNiveau = [listClasse.slice(0, 12),listClasse.slice(12,23),listClasse.slice(23,34)]
 nomNiveau = ["secondes","premières","terminales"]
 //path
 
@@ -79,7 +79,26 @@ function hash(){
     + " " + (String(d.getHours()).length == 1?"0":"") + d.getHours()
     + ":" + (String(d.getMinutes()).length == 1?"0":"") + d.getMinutes()
     + ":" + (String(d.getSeconds()).length == 1?"0":"") + d.getSeconds()
-  }
+}
+
+function indexOf2dArray(array2d, itemtofind) {
+    let found = false
+    let col
+    let row
+    for(row in array2d){
+        col = array2d[row].indexOf(itemtofind)
+        if(col != -1){
+            found = true
+            break;
+        }
+    }
+    if(!found){
+        return -1
+    }else{
+        return [row, col]; 
+    }
+    
+}
 
 //reload
 function reload(){

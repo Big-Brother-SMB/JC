@@ -10,7 +10,7 @@ console.log("hello2");
 let divListe = document.getElementById("liste")
 
 let prio = []
-database.ref(path(j,h) + "/prio").once("value", function(snapshot) {
+database.ref(path(j,h) + "/prioritaires").once("value", function(snapshot) {
     snapshot.forEach(function(child) {
         prio.push(child.key)
     })
@@ -139,7 +139,7 @@ setTimeout(function() {
             let groupScore = document.createElement("button")
             groupScore.innerHTML = gScore[u] + " GP"
 
-            let classAmis = document.createElement("div")
+            let classAmis = document.createElement("button")
             
             for(let a in addLinkTag[u]){
                 let tag = addLinkTag[u][a]
@@ -165,8 +165,8 @@ setTimeout(function() {
             divPers.appendChild(score);
             divPers.appendChild(groupScore);
             divPers.appendChild(perPrio);
-            /*divPers.innerHTML += "<br>"
-            divPers.appendChild(classAmis)*/
+            divPers.innerHTML += "<br>"
+            divPers.appendChild(classAmis)
 
             divListe.appendChild(divPers);
         }
