@@ -15,7 +15,10 @@ database.ref(path(j,h) + "/prioritaires").once("value", function(snapshot) {
         prio.push(child.key)
     })
 })
-
+let cout
+database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
+    cout = snapshot.val();
+});
 
 getStat(j,h,"demandes")
 setTimeout(function() {
@@ -58,7 +61,9 @@ setTimeout(function() {
                     if(score == null){
                         score = 0
                     }
+                    let hashCode = hash()
                     database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
+                    database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
                     database.ref(path(j,h) + "/inscrits/" + name).set(score)
                     database.ref(path(j,h) + "/demandes/" + name).remove()
                     try{
@@ -158,14 +163,19 @@ setTimeout(function() {
             }
             perPrio.innerHTML = Math.round(nbPrio / addLinkTag[u].length * 100) + "%"
 
+            perPrio.addEventListener("click", function(){
+                console.log("bruh")
+            })
+
             divPers.appendChild(pers);
             divPers.appendChild(del);
             divPers.appendChild(add);
             divPers.appendChild(classe);
             divPers.appendChild(score);
             divPers.appendChild(groupScore);
-            divPers.appendChild(perPrio);
-            divPers.innerHTML += "<br>"
+            divPers.appendChild(document.createElement("p"));
+            
+            //divPers.innerHTML += "<br>"
             divPers.appendChild(classAmis)
 
             divListe.appendChild(divPers);
