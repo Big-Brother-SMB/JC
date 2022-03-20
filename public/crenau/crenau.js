@@ -354,16 +354,16 @@ function algo(){
                         if(score == null){
                             score = 0
                         }
-                        //database.ref(path(j,h) + "/inscrits/" + name).set(score)
+                        database.ref(path(j,h) + "/inscrits/" + name).set(score)
                         if(!gratuit || prio.indexOf(usersPriorites[alea][0]) == -1){
-                            //database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
-                            //database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
+                            database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
+                            database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
                         }else{
                             console.log("gratis")
                         }
                        
                         
-                        /*database.ref(path(j,h) + "/demandes/" + name).remove()
+                        database.ref(path(j,h) + "/demandes/" + name).remove()
                         try{
                             database.ref("users/" + users[p] + "/email").once("value",function(snapshot){
                                 let email = snapshot.val()
@@ -374,7 +374,7 @@ function algo(){
                             
                         }catch(exception){
                             console.log(exception)
-                        }*/
+                        }
                         console.log("inscrit : " + name)
                         tag[p] = true
                         inscrits++
