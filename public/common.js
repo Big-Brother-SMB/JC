@@ -62,9 +62,9 @@ const dayWithMer = ["1lundi", "2mardi","err","3jeudi","4vendredi"]
 const dayNum = ["1lundi", "2mardi","3jeudi","4vendredi"];
 
 //classe
-const listClasse = ["SA","SB","SC","SD","SE","SF","SG","SH","SI","SJ","SK","SL","1A","1B","1C","1D","1E","1F","1G","1H","1I","1J","1K","TA","TB","TC","TD","TE","TF","TG","TH","TI","TJ","TK","PCSI","PC","professeur/personnel"]
-let listNiveau = [listClasse.slice(0, 12),listClasse.slice(12,23),listClasse.slice(23,34)]
-nomNiveau = ["secondes","premières","terminales"]
+const listClasse = ["SA","SB","SC","SD","SE","SF","SG","SH","SI","SJ","SK","SL","1A","1B","1C","1D","1E","1F","1G","1H","1I","1J","1K","TA","TB","TC","TD","TE","TF","TG","TH","TI","TJ","TK","PCSI","PC","professeur-personnel"]
+let listNiveau = [listClasse.slice(0, 12),listClasse.slice(12,23),listClasse.slice(23,34),listClasse.slice(34,37)]
+nomNiveau = ["secondes","premières","terminales","adultes"]
 //path
 
 function path(j,h){
@@ -117,6 +117,8 @@ let amisTag = []
 let gScore = []
 let usersScore = []
 
+let usersPriorites = []
+
 let classes = []
 let usersClasse = []
 
@@ -162,6 +164,14 @@ function getStat(j,h,type){
                     })
                 })
             })
+            let prios = []
+            database.ref("users/" + name + "/priorites").once("value", function(snapshot) {
+                snapshot.forEach(function(child) {
+                    prios.push(child.key)
+                })
+                usersPriorites[u] = prios
+            })
+
         }
 
         for(let u in users){
@@ -274,6 +284,7 @@ function getStat(j,h,type){
         console.log(usersClasse)
         console.log("group score", gScore)
         console.log("users score",usersScore)
+        console.log("users prio",usersPriorites)
 
     },1000);
 

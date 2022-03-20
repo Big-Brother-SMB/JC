@@ -6,7 +6,7 @@ console.log(path(j,h));
 
 
 let divMode = document.getElementById("mode")
-for(i in listMode){
+for(let i in listMode){
     let opt = document.createElement("option")
     opt.innerHTML = listMode[i]
     divMode.appendChild(opt);
@@ -49,6 +49,8 @@ database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
 
 
 
+
+
 function nbPersDemande(nb){
     document.getElementById("demandes").innerHTML = "demandes (" + nb + ")"
 }
@@ -69,7 +71,34 @@ document.getElementById("inscrits").addEventListener("click", function() {
     window.location.href = "listes/inscrits.html";
 });
 
+let divGroupes = document.getElementById("groupes")
 
+let cbGroupes = []
+let groupes = []
+let iG = 0
+database.ref("priorites").once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+        const index = iG;
+        groupes.push(child.key)
+        let gr = document.createElement("p")
+        cbGroupes[index] = document.createElement("input")
+        cbGroupes[index].type = "checkbox"
+        cbGroupes[index].addEventListener("click", function() {
+            if(cbGroupes[index].checked){
+                database.ref(path(j,h) + "/prioritaires/" + groupes[index]).set(0)
+            }else{
+                database.ref(path(j,h) + "/prioritaires/" + groupes[index]).remove()
+            }
+           
+        })
+        //cbClasses[n][i].checked = true
+        gr.innerHTML = groupes[index]
+        gr.appendChild(cbGroupes[index]);
+        divGroupes.appendChild(gr);
+        iG++;
+    })
+
+})
 
 let divClasses = document.getElementById("classes")
 let cbClasses = []
@@ -77,7 +106,7 @@ console.log(listNiveau)
 for(let n in listNiveau){
     cbClasses[n] = []
     let divNiveau = document.createElement("div")
-    divNiveau.style="display: inline-block;*display: inline;width:30%"
+    divNiveau.style="display: inline-block;*display: inline;width:20%"
 
     let nSelectAll = document.createElement("button")
     nSelectAll.className = "bTriNiveau"
@@ -145,16 +174,19 @@ for(let n in listNiveau){
     
 }
 
-let prio = []
+//let prio = []
 database.ref(path(j,h) + "/prioritaires").once("value", function(snapshot) {
     snapshot.forEach(function(child) {
         let c = child.key
         console.log(c)
-        prio.push(c)
+        //prio.push(c)
         let index = indexOf2dArray(listNiveau,c)
+        let index2 = groupes.indexOf(c)
         console.log("index prio : " + index)
         if(index != -1){
             cbClasses[index[0]][index[1]].checked = true
+        }else if(index2 != -1){
+            cbGroupes[index2].checked = true
         }
     })
 })
@@ -192,6 +224,9 @@ document.getElementById("inversed").addEventListener("click", function() {
         }
     }
 });
+
+
+
 
 /*document.getElementById("start algo").addEventListener("click", function() {
     let classes = []
@@ -254,6 +289,15 @@ function algo(){
     database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
         cout = snapshot.val();
     });
+    let switchGratuit = document.getElementById("switch gratuit")
+    let gratuit = switchGratuit.checked
+
+    let prio = []
+    database.ref(path(j,h) + "/prioritaires").once("value", function(snapshot) {
+        snapshot.forEach(function(child) {
+            prio.push(child.key)
+        })
+    })
     
     getStat(j,h,"demandes")
     setTimeout(function() {
@@ -296,10 +340,12 @@ function algo(){
         let nbEmail = 0
         let fini = false
         var maxScore = Math.max(...gScore);
+        let bPrio = true;
+        let hashCode = hash()
         console.log("max score : " + maxScore)
         while(places > inscrits && maxScore >= 0){
             console.log("inscrit",inscrits)
-            if(!tag[alea] && gScore[alea] >= maxScore && addLinkTag[alea].length <= places - inscrits){
+            if(!tag[alea] && gScore[alea] >= maxScore && addLinkTag[alea].length <= places - inscrits && (!bPrio || prio.indexOf(usersPriorites[alea][0]) != -1)){ 
                 for(let pers in addLinkTag[alea]){
                     let p = addLinkTag[alea][pers]
                     if(!tag[p]){
@@ -308,12 +354,16 @@ function algo(){
                         if(score == null){
                             score = 0
                         }
-                        database.ref(path(j,h) + "/inscrits/" + name).set(score)
-                        let hashCode = hash()
-                        database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
-                        database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
+                        //database.ref(path(j,h) + "/inscrits/" + name).set(score)
+                        if(!gratuit || prio.indexOf(usersPriorites[alea][0]) == -1){
+                            //database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
+                            //database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
+                        }else{
+                            console.log("gratis")
+                        }
+                       
                         
-                        database.ref(path(j,h) + "/demandes/" + name).remove()
+                        /*database.ref(path(j,h) + "/demandes/" + name).remove()
                         try{
                             database.ref("users/" + users[p] + "/email").once("value",function(snapshot){
                                 let email = snapshot.val()
@@ -324,7 +374,7 @@ function algo(){
                             
                         }catch(exception){
                             console.log(exception)
-                        }
+                        }*/
                         console.log("inscrit : " + name)
                         tag[p] = true
                         inscrits++
@@ -341,6 +391,11 @@ function algo(){
                 if(alea == base){
                     maxScore--
                     console.log("plus de possibilité pour ce score, nouveau : " + maxScore)
+                }
+                if(maxScore <= 0 && bPrio){
+                    console.log("passage au non prioritaires")
+                    maxScore = Math.max(...gScore);
+                    bPrio = false
                 }
                 
             }

@@ -148,6 +148,10 @@ article{
     width: 100%;
   }
 
+  #groupes{
+    display:inline-block;
+    width: 100%;
+  }
   
   
   p{
