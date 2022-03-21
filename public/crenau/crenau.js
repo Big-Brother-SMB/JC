@@ -368,11 +368,11 @@ function algo(){
                             score = 0
                         }
                         database.ref(path(j,h) + "/inscrits/" + name).set(score)
-                        if(!gratuit || prio.indexOf(usersPriorites[alea][0]) == -1){
+                        if(gratuit && (prio.indexOf(usersPriorites[alea][0]) != -1 || prio.indexOf(usersClasse[alea]) != -1) ){
+                            console.log("gratis")
+                        }else{
                             database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
                             database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
-                        }else{
-                            console.log("gratis")
                         }
                        
                         
