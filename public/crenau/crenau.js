@@ -5,6 +5,8 @@ let h = parseInt(sessionStorage.getItem("h"));
 console.log(path(j,h));
 
 
+document.getElementById("per").value = 50
+
 let divMode = document.getElementById("mode")
 for(let i in listMode){
     let opt = document.createElement("option")
@@ -292,6 +294,8 @@ function algo(){
     let switchGratuit = document.getElementById("switch gratuit")
     let gratuit = switchGratuit.checked
 
+    perPrioMin = Math.abs(document.getElementById("per").value);
+
     let prio = []
     database.ref(path(j,h) + "/prioritaires").once("value", function(snapshot) {
         snapshot.forEach(function(child) {
@@ -345,7 +349,16 @@ function algo(){
         console.log("max score : " + maxScore)
         while(places > inscrits && maxScore >= 0){
             console.log("inscrit",inscrits)
-            if(!tag[alea] && gScore[alea] >= maxScore && addLinkTag[alea].length <= places - inscrits && (!bPrio || prio.indexOf(usersPriorites[alea][0]) != -1)){ 
+            let nbPrio = 0
+            for(let a in addLinkTag[alea]){
+                const tag = addLinkTag[alea][a]
+                if(prio.indexOf(usersPriorites[tag][0]) != -1 || prio.indexOf(usersClasse[tag]) != -1){
+                    nbPrio++
+                }
+            }
+            let perPrio = Math.round(nbPrio / addLinkTag[alea].length * 100)
+            if(!tag[alea] && gScore[alea] >= maxScore && addLinkTag[alea].length <= places - inscrits && (!bPrio || perPrio >= perPrioMin) ){ 
+                console.log(users[alea] + " -> per prio : " + perPrio + "% (" + usersClasse[alea] + ")")
                 for(let pers in addLinkTag[alea]){
                     let p = addLinkTag[alea][pers]
                     if(!tag[p]){
@@ -392,7 +405,7 @@ function algo(){
                     maxScore--
                     console.log("plus de possibilité pour ce score, nouveau : " + maxScore)
                 }
-                if(maxScore <= 0 && bPrio){
+                if(maxScore < 0 && bPrio){
                     console.log("passage au non prioritaires")
                     maxScore = Math.max(...gScore);
                     bPrio = false

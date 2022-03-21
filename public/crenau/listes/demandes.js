@@ -173,6 +173,7 @@ setTimeout(function() {
             divPers.appendChild(classe);
             divPers.appendChild(score);
             divPers.appendChild(groupScore);
+            divPers.appendChild(perPrio)
             divPers.appendChild(document.createElement("p"));
             
             //divPers.innerHTML += "<br>"
