@@ -352,8 +352,15 @@ function algo(){
             let nbPrio = 0
             for(let a in addLinkTag[alea]){
                 const tag = addLinkTag[alea][a]
-                if(prio.indexOf(usersPriorites[tag][0]) != -1 || prio.indexOf(usersClasse[tag]) != -1){
+                if(prio.indexOf(usersClasse[tag]) != -1){
                     nbPrio++
+                }
+                try{
+                    if(prio.indexOf(usersPriorites[tag][0]) != -1){
+                        nbPrio++
+                    }
+                }catch(exception){
+
                 }
             }
             let perPrio = Math.round(nbPrio / addLinkTag[alea].length * 100)
