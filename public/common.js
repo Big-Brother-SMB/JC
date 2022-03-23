@@ -100,6 +100,16 @@ function indexOf2dArray(array2d, itemtofind) {
     
 }
 
+function commonElement(l1,l2){
+    let nb = 0
+    for(let e in l1){
+        if(l2.indexOf(l1[e]) != -1){
+            nb++
+        }
+    }
+    return nb;
+}
+
 //reload
 function reload(){
     window.location.reload(true)

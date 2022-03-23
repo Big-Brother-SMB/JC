@@ -9,6 +9,23 @@ button{
     vertical-align: text-top;
   }
 
+
+  .name{
+    background-color: #ff053b;
+  }
+
+  .score{
+    background-color: #0cd405;
+  }
+
+  .classe{
+    background-color: #fbff00;
+  }
+
+  .prio{
+    background-color: #be09af;
+  }
+
   div{
     margin: 50px 0px;
   }
