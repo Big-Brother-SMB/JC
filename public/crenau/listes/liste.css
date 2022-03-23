@@ -33,4 +33,13 @@ button{
   div{
     margin: 50px 0px;
   }
+
+  select{
+    font-size: 50px;
+    width: 1000px;
+  } 
+
+  p{
+    font-size: 30px;
+  }
   
