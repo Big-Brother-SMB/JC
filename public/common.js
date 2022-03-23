@@ -58,6 +58,7 @@ let week = readIntCookie("week")
 
 let actualWeek = 12;
 const day = ["Lundi", "Mardi","Jeudi","Vendredi"];
+const dayLowerCase = ["lundi", "mardi","jeudi","vendredi"];
 const dayWithMer = ["1lundi", "2mardi","err","3jeudi","4vendredi"]
 const dayNum = ["1lundi", "2mardi","3jeudi","4vendredi"];
 

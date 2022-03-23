@@ -64,7 +64,7 @@ setTimeout(function() {
                     }
                     let hashCode = hash()
                     database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
-                    database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
+                    database.ref("users/" + name + "/score/" + hashCode + "/name").set("Repas du " + dayLowerCase[j] + " " + "24" + " mars à " + (11 + h) + "h")
                     database.ref(path(j,h) + "/inscrits/" + name).set(score)
                     database.ref(path(j,h) + "/demandes/" + name).remove()
                     try{

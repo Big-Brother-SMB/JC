@@ -35,7 +35,7 @@ setTimeout(function() {
                     snap.forEach(function(child) {
                         try{
                             console.log(child.node_.children_.root_.left.value.value_)
-                            if(child.node_.children_.root_.left.value.value_ == "semaine" + week + "-" + day[j] + "-" + (11 + h) + "h"){
+                            if(child.node_.children_.root_.left.value.value_ == "Repas du " + dayLowerCase[j] + " " + "24" + " mars à " + (11 + h) + "h"){
                                 console.log("found")
                                 database.ref("users/" + name + "/score/" + child.key).remove()
                                 rembourse = true
@@ -45,12 +45,12 @@ setTimeout(function() {
                         }
                         
                     })
-                    if(!rembourse){
+                    /*if(!rembourse){
                         let hashCode = hash()
                         database.ref("users/" + name + "/score/" + hashCode + "/value").set(cout)
                         database.ref("users/" + name + "/score/" + hashCode + "/name").set("remboursement de la semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
                             
-                    }
+                    }*/
                     setTimeout(function() {
                         reload()
                     },1000);
