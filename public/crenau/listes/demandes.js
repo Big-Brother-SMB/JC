@@ -34,6 +34,7 @@ setTimeout(function() {
             let pers = document.createElement("button")
             let name = users[u]
             pers.innerHTML = name
+            pers.className = "name"
 
             let del = document.createElement("button")
             del.addEventListener("click", function() {
@@ -137,9 +138,11 @@ setTimeout(function() {
 
             let classe = document.createElement("button")
             classe.innerHTML = usersClasse[u]
+            classe.className = "classe"
 
             let score = document.createElement("button")
             score.innerHTML = usersScore[u] + " pts"
+            score.className = "score"
 
             let groupScore = document.createElement("button")
             groupScore.innerHTML = gScore[u] + " GP"
@@ -157,15 +160,18 @@ setTimeout(function() {
             let nbPrio = 0
             for(let a in addLinkTag[u]){
                 let tag = addLinkTag[u][a]
-                if(prio.indexOf(usersClasse[tag]) != -1){
+                if(prio.indexOf(usersClasse[tag]) != -1 || commonElement(prio, usersPriorites[tag]) != 0){
                     nbPrio++
                 }
             }
             perPrio.innerHTML = Math.round(nbPrio / addLinkTag[u].length * 100) + "%"
+            perPrio.className = "prio"
 
             perPrio.addEventListener("click", function(){
                 console.log("bruh")
             })
+
+            
 
             divPers.appendChild(pers);
             divPers.appendChild(del);
@@ -174,6 +180,14 @@ setTimeout(function() {
             divPers.appendChild(score);
             divPers.appendChild(groupScore);
             divPers.appendChild(perPrio)
+
+            for(let p in usersPriorites[u]){
+                let bP = document.createElement("button")
+                bP.innerHTML = usersPriorites[u][p]
+               // bP.className = "prio"
+                divPers.appendChild(bP);
+            }
+            
             divPers.appendChild(document.createElement("p"));
             
             //divPers.innerHTML += "<br>"

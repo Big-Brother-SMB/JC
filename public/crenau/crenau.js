@@ -5,8 +5,6 @@ let h = parseInt(sessionStorage.getItem("h"));
 console.log(path(j,h));
 
 
-document.getElementById("per").value = 50
-
 let divMode = document.getElementById("mode")
 for(let i in listMode){
     let opt = document.createElement("option")
@@ -50,7 +48,53 @@ database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
 });
 
 
+let inPer = document.getElementById("per")
+let perMin
+database.ref(path(j,h) + "/perMin").once('value').then(function(snapshot) {
+    perMin = snapshot.val();
+    inPer.value = perMin
+    inPer.addEventListener("change", function() {
+        perMin = this.value
+        database.ref(path(j,h) + "/perMin").set(perMin)
+    });
+    if(snapshot.val() == null){
+        database.ref(path(j,h) + "/perMin").set(75)
+        inPer.value = 75
+    }
+});
 
+
+let sOnly = document.getElementById("switch prio only")
+let only
+database.ref(path(j,h) + "/uniquement prioritaires").once('value').then(function(snapshot) {
+    only = snapshot.val();
+    sOnly.checked = only
+    sOnly.addEventListener("change", function() {
+        only = this.checked
+        console.log("uniquement prios : " + only)
+        database.ref(path(j,h) + "/uniquement prioritaires").set(only)
+    });
+    if(snapshot.val() == null){
+        database.ref(path(j,h) + "/uniquement prioritaires").set(false)
+        sOnly.checked = false
+    }
+});
+
+let sGratuit = document.getElementById("switch gratuit")
+let gratuit
+database.ref(path(j,h) + "/gratuit prioritaires").once('value').then(function(snapshot) {
+    gratuit = snapshot.val();
+    sGratuit.checked = gratuit
+    sGratuit.addEventListener("change", function() {
+        gratuit = this.checked
+        console.log("gratuit : " + gratuit)
+        database.ref(path(j,h) + "/gratuit prioritaires").set(gratuit)
+    });
+    if(snapshot.val() == null){
+        database.ref(path(j,h) + "/gratuit prioritaires").set(false)
+        sGratuit.checked = false
+    }
+});
 
 
 function nbPersDemande(nb){
@@ -291,10 +335,7 @@ function algo(){
     database.ref(path(j,h) + "/cout").once('value').then(function(snapshot) {
         cout = snapshot.val();
     });
-    let switchGratuit = document.getElementById("switch gratuit")
-    let gratuit = switchGratuit.checked
 
-    perPrioMin = Math.abs(document.getElementById("per").value);
 
     let prio = []
     database.ref(path(j,h) + "/prioritaires").once("value", function(snapshot) {
@@ -352,32 +393,27 @@ function algo(){
             let nbPrio = 0
             for(let a in addLinkTag[alea]){
                 const tag = addLinkTag[alea][a]
-                if(prio.indexOf(usersClasse[tag]) != -1){
+                if(prio.indexOf(usersClasse[tag]) != -1 || commonElement(prio, usersPriorites[tag]) != 0){
                     nbPrio++
                 }
-                try{
-                    if(prio.indexOf(usersPriorites[tag][0]) != -1){
-                        nbPrio++
-                    }
-                }catch(exception){
-
-                }
+                
             }
             let perPrio = Math.round(nbPrio / addLinkTag[alea].length * 100)
-            if(!tag[alea] && gScore[alea] >= maxScore && addLinkTag[alea].length <= places - inscrits && (!bPrio || perPrio >= perPrioMin) ){ 
+            if(!tag[alea] && gScore[alea] >= maxScore && addLinkTag[alea].length <= places - inscrits && (!bPrio || perPrio >= perMin) ){ 
                 console.log(users[alea] + " -> per prio : " + perPrio + "% (" + usersClasse[alea] + ")")
                 for(let pers in addLinkTag[alea]){
                     let p = addLinkTag[alea][pers]
                     if(!tag[p]){
                         let name = users[p]
+                        console.log("inscrit : " + name)
                         let score = usersScore[p]
                         if(score == null){
                             score = 0
                         }
-                        database.ref(path(j,h) + "/inscrits/" + name).set(score)
-                        if(gratuit && (prio.indexOf(usersPriorites[alea][0]) != -1 || prio.indexOf(usersClasse[alea]) != -1) ){
+                        //database.ref(path(j,h) + "/inscrits/" + name).set(score)
+                        if(gratuit && (commonElement(prio, usersPriorites[p]) != 0 || prio.indexOf(usersClasse[p]) != -1) ){
                             console.log("gratis")
-                        }else{
+                        }/*else{
                             database.ref("users/" + name + "/score/" + hashCode + "/name").set("semaine" + week + "-" + day[j] + "-" + (11 + h) + "h")
                             database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
                         }
@@ -394,8 +430,8 @@ function algo(){
                             
                         }catch(exception){
                             console.log(exception)
-                        }
-                        console.log("inscrit : " + name)
+                        }*/
+                        
                         tag[p] = true
                         inscrits++
                     }
@@ -412,7 +448,7 @@ function algo(){
                     maxScore--
                     console.log("plus de possibilité pour ce score, nouveau : " + maxScore)
                 }
-                if(maxScore < 0 && bPrio){
+                if(maxScore < 0 && bPrio && !only){
                     console.log("passage au non prioritaires")
                     maxScore = Math.max(...gScore);
                     bPrio = false
