@@ -165,7 +165,7 @@ setTimeout(function() {
                 }
             }
             perPrio.innerHTML = Math.round(nbPrio / addLinkTag[u].length * 100) + "%"
-            perPrio.className = "prio"
+            perPrio.className = "per"
 
             perPrio.addEventListener("click", function(){
                 console.log("bruh")
@@ -184,6 +184,7 @@ setTimeout(function() {
             for(let p in usersPriorites[u]){
                 let bP = document.createElement("button")
                 bP.innerHTML = usersPriorites[u][p]
+                bP.className = "prio"
                // bP.className = "prio"
                 divPers.appendChild(bP);
             }
