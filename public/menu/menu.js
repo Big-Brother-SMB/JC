@@ -21,6 +21,11 @@ fileInput.onchange = () => {
 //(new Date()).getWeek();
 
 
+document.getElementById("planing").addEventListener("click", function () {
+    window.location.href = "../perm/menu/menuPerm.html";
+});
+
+
 document.getElementById("semainePrecedente").addEventListener("click", function() {
     sessionStorage.setItem("week", parseInt(sessionStorage.getItem("week")) - 1);
     week = week - 1
@@ -106,7 +111,7 @@ let nbFois;
 //refreshDatabase();
 function refreshDatabase(){
 
-    let sn = ["21 au 25 mars","28 au 1 avril","4 au 8 avril","11 au 15 avril"]
+    let sn = ["28 au 1 avril","4 au 8 avril","11 au 15 avril"]
 
     let text = "semaine du " + sn[week-actualWeek] 
     if(week == actualWeek){

@@ -56,11 +56,14 @@ let week = readIntCookie("week")
 
 // semaine
 
-let actualWeek = 12;
+let actualWeek = 13;
 const day = ["Lundi", "Mardi","Jeudi","Vendredi"];
 const dayLowerCase = ["lundi", "mardi","jeudi","vendredi"];
 const dayWithMer = ["1lundi", "2mardi","err","3jeudi","4vendredi"]
 const dayNum = ["1lundi", "2mardi","3jeudi","4vendredi"];
+
+const dayMer = ["Lundi", "Mardi","Mercredi","Jeudi","Vendredi"];
+const dayNumMer = ["1lundi", "2mardi","3mercredi","4jeudi","5vendredi"];
 
 //classe
 const listClasse = ["SA","SB","SC","SD","SE","SF","SG","SH","SI","SJ","SK","SL","1A","1B","1C","1D","1E","1F","1G","1H","1I","1J","1K","TA","TB","TC","TD","TE","TF","TG","TH","TI","TJ","TK","PCSI","PC","professeur-personnel"]
@@ -71,6 +74,14 @@ nomNiveau = ["secondes","premières","terminales","adultes"]
 function path(j,h){
     return "foyer_midi/semaine"+week+"/" + dayNum[j] + "/" + (11 + h) + "h"
 }
+
+function pathPerm(j,h){
+    if(h >= 4){
+        h++
+    }
+    return "perm/semaine"+week+"/" + dayNumMer[j] + "/" + (h+8) + "h"
+}
+
 
 function hash(){
     let d =  new Date()
@@ -118,6 +129,7 @@ function reload(){
 
 //modes
 let listMode = ["horaire non planifié","ouvert","fermé","uniquement inscription","uniquement désinscription","ouvert mais plus de changements","vacances","aleatoire","calcul","fini"]
+let listModePerm = ["Selection","Fermé","Ouvert à tous","Reservation","Vacances"]
 
 //Stats
 
