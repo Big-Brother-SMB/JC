@@ -5,6 +5,11 @@ let h = parseInt(sessionStorage.getItem("h"));
 console.log(pathPerm(j,h));
 
 
+let divSpecial = document.getElementById("divSpecial")
+let bAddSpecial = document.getElementById("add special")
+let inputSpecial = document.getElementById("input special")
+
+
 let divMode = document.getElementById("mode")
 for(let i in listModePerm){
     let opt = document.createElement("option")
@@ -37,9 +42,9 @@ database.ref("priorites").once("value", function(snapshot) {
         cbGroupes[index].type = "checkbox"
         cbGroupes[index].addEventListener("click", function() {
             if(cbGroupes[index].checked){
-                addPrio(j,h,groupes[index])
+                addPrio(groupes[index])
             }else{
-                delPrio(j,h,groupes[index])
+                delPrio(groupes[index])
             }
            
         })
@@ -67,7 +72,7 @@ for(let n in listNiveau){
         console.log("niveau " + n + " select all")
         for(i in cbClasses[n]){
             cbClasses[n][i].checked = true
-            addPrio(j,h,listNiveau[n][i])
+            addPrio(listNiveau[n][i])
         }
         
     });
@@ -80,7 +85,7 @@ for(let n in listNiveau){
         console.log("niveau " + n + " select none")
         for(i in cbClasses[n]){
             cbClasses[n][i].checked = false
-            delPrio(j,h,listNiveau[n][i])
+            delPrio(listNiveau[n][i])
         }
         
     });
@@ -94,9 +99,9 @@ for(let n in listNiveau){
         for(i in cbClasses[n]){
             cbClasses[n][i].checked = !cbClasses[n][i].checked
             if(cbClasses[n][i].checked){
-                addPrio(j,h,listNiveau[n][i])
+                addPrio(listNiveau[n][i])
             }else{
-                delPrio(j,h,listNiveau[n][i])
+                delPrio(listNiveau[n][i])
             }
         }
         
@@ -114,9 +119,9 @@ for(let n in listNiveau){
         opt.appendChild(cbClasses[n][i]);
         cbClasses[n][i].addEventListener("click", function() {
             if(cbClasses[n][i].checked){
-                addPrio(j,h,listNiveau[n][i])
+                addPrio(listNiveau[n][i])
             }else{
-                delPrio(j,h,listNiveau[n][i])
+                delPrio(listNiveau[n][i])
             }
            
         })
@@ -139,6 +144,8 @@ database.ref(pathPerm(j,h) + "/classes").once("value", function(snapshot) {
             cbClasses[index[0]][index[1]].checked = true
         }else if(index2 != -1){
             cbGroupes[index2].checked = true
+        }else{
+            addSpecial(c) 
         }
     })
 })
@@ -148,7 +155,7 @@ document.getElementById("select all").addEventListener("click", function() {
     for(let n in cbClasses){
         for(let i in cbClasses[n]){
             cbClasses[n][i].checked = true
-            addPrio(j,h,listNiveau[n][i])
+            addPrio(listNiveau[n][i])
         }
     }
 });
@@ -158,7 +165,7 @@ document.getElementById("select none").addEventListener("click", function() {
     for(let n in cbClasses){
         for(let i in cbClasses[n]){
             cbClasses[n][i].checked = false
-            delPrio(j,h,listNiveau[n][i])
+            delPrio(listNiveau[n][i])
         }
     }
 });
@@ -169,19 +176,45 @@ document.getElementById("inversed").addEventListener("click", function() {
         for(let i in cbClasses[n]){
             cbClasses[n][i].checked = !cbClasses[n][i].checked
             if(cbClasses[n][i].checked){
-                addPrio(j,h,listNiveau[n][i])
+                addPrio(listNiveau[n][i])
             }else{
-                delPrio(j,h,listNiveau[n][i])
+                delPrio(listNiveau[n][i])
             }
         }
     }
 });
 
 
-function addPrio(j,h,name){
+function addPrio(name){
     database.ref(pathPerm(j,h) + "/classes/" + name).set(0)
 }
 
-function delPrio(j,h,name){
+function delPrio(name){
     database.ref(pathPerm(j,h) + "/classes/" + name).remove()
 }
+
+
+
+function addSpecial(name){
+    let event = document.createElement("button")
+    event.classList.add("event")
+    divSpecial.appendChild(event);
+    event.innerHTML = name 
+    
+
+
+    event.addEventListener("click", function() {
+        delPrio(name)
+        divSpecial.removeChild(event);
+    })     
+}
+
+bAddSpecial.addEventListener("click", function() {
+    let name = inputSpecial.value
+    if(name != ""){
+        addPrio(name)
+        addSpecial(name)
+        inputSpecial.value = ""
+    }
+    
+});
