@@ -58,6 +58,36 @@ document.getElementById("pass").addEventListener("click", function() {
 
 });
 
+document.getElementById("add point").addEventListener("click", function() {
+    let confirmation = document.createElement("button")
+    confirmation.innerHTML = "confirmer"
+    confirmation.addEventListener("click", function() {
+        confirmation.innerHTML = "en cours"
+        let nb = 0
+        let hashCode = hash()
+        console.log(hashCode)
+        database.ref("users").once("value", function(snapshot) {
+            let total = snapshot.numChildren()
+            console.log("nb total : " + total)
+            confirmation.innerHTML = "0/" + total
+            snapshot.forEach(function(child) {
+              let name = child.key
+              database.ref("users/" + name + "/score/" + hashCode + "/name").set("gain de la semaine " + actualWeek)
+              database.ref("users/" + name + "/score/" + hashCode + "/value").set(1)
+              nb++
+              confirmation.innerHTML = nb + "/" + total + " (" + name + ")"
+              if(nb == total){
+                confirmation.innerHTML = "fini, reload"
+                confirmation.addEventListener("click", function() {
+                    reload()
+                })
+              }
+            })
+        })
+    })
+    document.getElementById("confirmation point").appendChild(confirmation)
+});
+
 
 const body = document.getElementById("body");
 const jour = ["lundi", "mardi","jeudi","vendredi"];
