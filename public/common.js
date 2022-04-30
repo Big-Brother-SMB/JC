@@ -134,6 +134,11 @@ function hash(){
     + ":" + (String(d.getSeconds()).length == 1?"0":"") + d.getSeconds()
 }
 
+function hashDate(){
+    let d = new Date()
+    return (d.getHours() + d.getMinutes() +Math.floor(d.getSeconds()/10))**3 %1000
+}
+
 function indexOf2dArray(array2d, itemtofind) {
     let found = false
     let col

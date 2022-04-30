@@ -137,3 +137,9 @@ input[type=submit] {
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
+
+
+#code{
+  font-size: 200px;
+  margin: 0px;
+}

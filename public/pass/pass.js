@@ -73,3 +73,14 @@ function searchName(name){
         }
     })
 }
+
+
+function loop(){
+
+    document.getElementById("code").innerHTML = hashDate()
+
+
+    setTimeout(loop,100);
+
+}
+loop();
