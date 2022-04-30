@@ -414,7 +414,9 @@ function algo(){
                         if(gratuit && (commonElement(prio, usersPriorites[p]) != 0 || prio.indexOf(usersClasse[p]) != -1) ){
                             console.log("gratis")
                         }else{
-                            database.ref("users/" + name + "/score/" + hashCode + "/name").set("Repas du " + dayLowerCase[j] + " " + "24" + " mars à " + (11 + h) + "h")
+                            
+                            
+                            database.ref("users/" + name + "/score/" + hashCode + "/name").set("Repas du " + dayLowerCase[j] + " " + getDayText(j) +  " à " + (11 + h) + "h")
                             database.ref("users/" + name + "/score/" + hashCode + "/value").set(-cout)
                         }
                        

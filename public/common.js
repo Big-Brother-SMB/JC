@@ -81,6 +81,7 @@ const day = ["Lundi", "Mardi","Jeudi","Vendredi"];
 const dayLowerCase = ["lundi", "mardi","jeudi","vendredi"];
 const dayWithMer = ["1lundi", "2mardi","err","3jeudi","4vendredi"]
 const dayNum = ["1lundi", "2mardi","3jeudi","4vendredi"];
+let month=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
 
 const dayMer = ["Lundi", "Mardi","Mercredi","Jeudi","Vendredi"];
 const dayNumMer = ["1lundi", "2mardi","3mercredi","4jeudi","5vendredi"];
@@ -100,6 +101,26 @@ function pathPerm(j,h){
         h++
     }
     return "perm/semaine"+week+"/" + dayNumMer[j] + "/" + (h+8) + "h"
+}
+
+
+function getDayText(j){
+    let date = new Date();
+    let ajd=date.getDay()-1;
+    let jour = j
+    if(j > 1){
+        jour++
+    }
+    let dateBeg=(Date.now()+604800000*(week - actualWeek))-(ajd-jour)*86400000;
+    dateBeg=new Date(dateBeg);
+    dateBeg = dateBeg.toLocaleString();
+    let mBeg = parseInt(dateBeg[3]+dateBeg[4] - 1)
+    let text = ""
+    if(dateBeg[0] != "0"){
+        text += dateBeg[0]
+    }
+    text += dateBeg[1] + " " + month[mBeg]
+    return text
 }
 
 

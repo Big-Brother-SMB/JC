@@ -35,7 +35,7 @@ setTimeout(function() {
                     snap.forEach(function(child) {
                         try{
                             console.log(child.node_.children_.root_.left.value.value_)
-                            if(child.node_.children_.root_.left.value.value_ == "Repas du " + dayLowerCase[j] + " " + "24" + " mars à " + (11 + h) + "h"){
+                            if(child.node_.children_.root_.left.value.value_ == "Repas du " + dayLowerCase[j] + " " + getDayText(j) + " à " + (11 + h) + "h"){
                                 console.log("found")
                                 database.ref("users/" + name + "/score/" + child.key).remove()
                                 rembourse = true
