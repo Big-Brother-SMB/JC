@@ -141,13 +141,11 @@ let nbFois;
 //refreshDatabase();
 function refreshDatabase(){
 
-    let sn = ["4 au 8 avril","11 au 15 avril"]
-
-    let text = "semaine du " + sn[week-actualWeek] 
-    if(week == actualWeek){
-        text = "cette semaine"
+    let text = "Semaine n°" + week + " du " + semaine(week)
+    if (week == actualWeek) {
+        text = "Cette semaine (n°" + week + " du " + semaine(week) + ")"
     }
-    document.getElementById("semaine").innerHTML = text + " (n°" + week + ")"
+    document.getElementById("semaine").innerHTML = text
 
     nbFois = 0;
     for(let j = 0; j < 4; j++){

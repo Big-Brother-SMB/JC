@@ -77,6 +77,33 @@ Date.prototype.getWeek = function() {
 let date = new Date();
 const actualWeek = date.getWeek();
 
+function semaine(semaine){ //nombreSemaineSup = nombre de semaine ce trouve l'intervalle à creer
+	let jour=date.getDay()-1;
+	let dateBeg=(Date.now()+604800000*(semaine - actualWeek))-jour*86400000; //86400000ms=1 jour et 604800000ms= 1semaine
+	let dateEnd=dateBeg+4*86400000;
+	dateBeg=new Date(dateBeg);
+	dateEnd=new Date(dateEnd);
+	dateBeg = dateBeg.toLocaleString();
+	dateEnd = dateEnd.toLocaleString();
+	let mois=["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"];
+    let mBeg = parseInt(dateBeg[3]+dateBeg[4] - 1)
+    let mEnd = parseInt(dateEnd[3]+dateEnd[4] - 1)
+    let text = ""
+    if(dateBeg[0] != "0"){
+        text += dateBeg[0]
+    }
+    text += dateBeg[1] + " "
+    if(mBeg != mEnd){
+        text += mois[mBeg] + " "
+    }
+    text += "au "
+    if(dateEnd[0] != "0"){
+        text += dateEnd[0]
+    }
+    text += dateEnd[1]+" " + mois[mEnd]
+    return text
+}
+
 const day = ["Lundi", "Mardi","Jeudi","Vendredi"];
 const dayLowerCase = ["lundi", "mardi","jeudi","vendredi"];
 const dayWithMer = ["1lundi", "2mardi","err","3jeudi","4vendredi"]
