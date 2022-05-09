@@ -285,3 +285,12 @@ article{
     font-size: 50px;
     width: 1000px;
   }  
+
+  .amis{
+    background-color: #8b9fc9;
+    border-radius:8px 8px 8px 8px;
+    padding: .75rem;
+    margin: .25em;
+    height: 50px;
+    width: 97%;
+  }

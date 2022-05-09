@@ -27,6 +27,41 @@ database.ref(pathPerm(j,h) + "/ouvert").once('value').then(function(snapshot) {
 
 
 
+let divDemandes = document.getElementById("demandes")
+
+
+database.ref(pathPerm(j,h) + "/demandes").once('value').then(function(snapshot) {
+    console.log(pathPerm(j,h) + "/demandes")
+    if(snapshot.val() != null){
+        divDemandes.innerHTML = ""
+    }
+    snapshot.forEach(function(child) {
+        let hashCode = child.key
+        database.ref(pathPerm(j,h) + "/demandes/" + hashCode + "/name").once('value').then(function(snapshot) {
+            let name = snapshot.val()
+            database.ref(pathPerm(j,h) + "/demandes/" + hashCode + "/nb").once('value').then(function(snapshot) {
+                let nb = snapshot.val()
+                database.ref(pathPerm(j,h) + "/demandes/" + hashCode + "/user").once('value').then(function(snapshot) {
+                    let user = snapshot.val()
+                    but = document.createElement("button")
+                    but.classList.add("amis")
+                    but.innerHTML = name +  " : " + nb +" (" + user + ")"
+
+                    but.addEventListener("click", function(){
+                        but.remove()
+                        database.ref(pathPerm(j,h) + "/demandes/" + hashCode).remove()
+                    })
+
+                    divDemandes.appendChild(but);
+                })
+            })
+        })
+        
+    })
+});
+
+
+
 
 let divGroupes = document.getElementById("groupes")
 
