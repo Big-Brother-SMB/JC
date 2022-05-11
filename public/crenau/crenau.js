@@ -459,9 +459,9 @@ function algo(){
             }
         }
         console.log("plus de places")
-        database.ref("test").once("value", function(snapshot) {
+        database.ref("version").once("value", function(snapshot) {
             fini = true
-            if(snapshot.val() == "test"){
+            if(snapshot.val() != null){
                 document.getElementById("start algo").innerHTML = "fini, " + (inscrits - dejaInscrit) + " inscriptions<br>il reste " + (places - inscrits) + " places<br>appuyer pour reload<br>Email envoyés : " + nbEmail
             }else{
                 document.getElementById("start algo").innerHTML = "Une erreur a eu lieu,<br>appuyer pour reload<br>(" + (inscrits - dejaInscrit) + " inscrits, reste " + (places - inscrits) + " places)"
